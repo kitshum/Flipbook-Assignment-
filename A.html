@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Pet Spa - Tasks Layout</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            max-width: 750px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .main-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #111;
+        }
+        /* Exercise Section Styles */
+        .instruction-text {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .task-item {
+            background-color: #fffdfb;
+            border: 1px solid #f3dcd0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .task-item:last-child {
+            margin-bottom: 0;
+        }
+        .task-header {
+            font-weight: bold;
+            color: #e67e22;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 16px;
+        }
+        .subject-noun {
+            font-weight: 600;
+            color: #333;
+        }
+        input[type="text"] {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-size: 15px;
+            flex: 1;
+            min-width: 220px;
+            transition: all 0.3s;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #ECA873;
+            box-shadow: 0 0 5px rgba(236, 168, 115, 0.5);
+        }
+        input.correct {
+            border-color: #2ecc71;
+            background-color: #e8f8f0;
+        }
+        input.incorrect {
+            border-color: #e74c3c;
+            background-color: #fdeaea;
+        }
+        .actions-wrapper {
+            display: flex;
+            gap: 5px;
+        }
+        button {
+            border: none;
+            padding: 6px 14px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-check {
+            background-color: #ECA873;
+            color: white;
+        }
+        .btn-check:hover {
+            background-color: #d9935f;
+        }
+        .btn-hint {
+            background-color: #7f8c8d;
+            color: white;
+        }
+        .btn-hint:hover {
+            background-color: #616a6b;
+        }
+        .feedback-area {
+            margin-top: 10px;
+            font-size: 14px;
+            display: none;
+            line-height: 1.4;
+        }
+        .error-msg {
+            color: #e74c3c;
+        }
+        .success-msg {
+            color: #2ecc71;
+        }
+        .hint-msg {
+            color: #2980b9;
+            background-color: #eaf2f8;
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 6px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="main-title">2. Service to be promoted: Happy Pet Spa</div>
+
+    <div class="instruction-text">Please enter your answers below.</div>
+    
+    <div class="task-item">
+        <div class="task-header">Target Feature 1: • Professional spa treatments for pets</div>
+        <div class="input-row">
+            <span class="subject-noun">This service</span>
+            <input type="text" id="blank1" placeholder="Fill in the verb and object part...">
+            <div class="actions-wrapper">
+                <button class="btn-check" onclick="validateField(1)">Check</button>
+                <button class="btn-hint" onclick="toggleHint(1)">Possible Response</button>
+            </div>
+        </div>
+        <div id="feedback1" class="feedback-area"></div>
+        <div id="hint1" class="feedback-area hint-msg">Possible response: "offers professional spa treatments for pets." or "provides professional spa treatments."</div>
+    </div>
+
+    <div class="task-item">
+        <div class="task-header">Target Feature 2: • Relaxing environment</div>
+        <div class="input-row">
+            <span class="subject-noun">Our environment</span>
+            <input type="text" id="blank2" placeholder="Fill in the verb and object/adjective...">
+            <div class="actions-wrapper">
+                <button class="btn-check" onclick="validateField(2)">Check</button>
+                <button class="btn-hint" onclick="toggleHint(2)">Possible Response</button>
+            </div>
+        </div>
+        <div id="feedback2" class="feedback-area"></div>
+        <div id="hint2" class="feedback-area hint-msg">Possible response: "is relaxing for all pets." or "provides a relaxing setting."</div>
+    </div>
+
+    <div class="task-item">
+        <div class="task-header">Target Feature 3: • Different packages available</div>
+        <div class="input-row">
+            <span class="subject-noun">Your pet</span>
+            <input type="text" id="blank3" placeholder="Fill in the verb and object part...">
+            <div class="actions-wrapper">
+                <button class="btn-check" onclick="validateField(3)">Check</button>
+                <button class="btn-hint" onclick="toggleHint(3)">Possible Response</button>
+            </div>
+        </div>
+        <div id="feedback3" class="feedback-area"></div>
+        <div id="hint3" class="feedback-area hint-msg">Possible response: "can enjoy different packages available." or "can choose from different packages."</div>
+    </div>
+
+    <div class="task-item">
+        <div class="task-header">Target Feature 4: • $580/session</div>
+        <div class="input-row">
+            <span class="subject-noun">The fee</span>
+            <input type="text" id="blank4" placeholder="Fill in the verb and object part...">
+            <div class="actions-wrapper">
+                <button class="btn-check" onclick="validateField(4)">Check</button>
+                <button class="btn-hint" onclick="toggleHint(4)">Possible Response</button>
+            </div>
+        </div>
+        <div id="feedback4" class="feedback-area"></div>
+        <div id="hint4" class="feedback-area hint-msg">Possible response: "is $580 per session." or "costs $580 for each session."</div>
+    </div>
+
+</div>
+
+<script>
+function validateField(num) {
+    const inputEl = document.getElementById(`blank${num}`);
+    const feedbackEl = document.getElementById(`feedback${num}`);
+    const val = inputEl.value.trim().replace(/\s+/g, ' ');
+    
+    feedbackEl.style.display = 'block';
+    feedbackEl.innerHTML = '';
+    
+    if (!val) {
+        inputEl.className = 'incorrect';
+        feedbackEl.innerHTML = `<span class="error-msg">⚠️ Field cannot be empty. Please fill in a verb and the descriptive object part.</span>`;
+        return;
+    }
+
+    let isCorrect = false;
+    let errorLog = [];
+
+    if (num === 1) {
+        const hasVerb = /\b(offers|provides|gives|is|features|called)\b/i.test(val);
+        const hasObject = /(professional|spa|treatment|pet)/i.test(val);
+        const spellingCheck = /\b(profesional|proffessional|tratment|spas)\b/i.test(val);
+
+        if (spellingCheck) {
+            errorLog.push("Spelling mistake identified. Verify the spelling of 'professional' or 'treatment'.");
+        } else if (!hasVerb) {
+            errorLog.push("Sentence structure incomplete. Missing an action or transitive verb after the subject noun phrase (e.g., 'offers...', 'is...').");
+        } else if (!hasObject) {
+            errorLog.push("Context target missing. Complete your statement by including core keywords from the feature details.");
+        } else {
+            isCorrect = true;
+        }
+    } 
+    else if (num === 2) {
+        const_hasVerb = /\b(is|provides|creates|offers)\b/i.test(val);
+        const hasAdjOrNoun = /\b(relaxing|comfortable|peaceful|calm)\b/i.test(val);
+        const spellingCheck = /\b(relaxin|enviroment)\b/i.test(val);
+
+        if (spellingCheck) {
+            errorLog.push("Spelling issue found. Review the word formations carefully.");
+        } else if (!const_hasVerb) {
+            errorLog.push("Missing a linking or main predicate verb (e.g., use 'is' to connect your subject to the descriptive adjective).");
+        } else if (!hasAdjOrNoun) {
+            errorLog.push("Contextual mismatch. The sentence needs to include 'relaxing' or an equivalent context descriptor.");
+        } else {
+            isCorrect = true;
+        }
+    } 
+    else if (num === 3) {
+        const hasVerb = /\b(can enjoy|enjoys|can choose|has|can try|selects)\b/i.test(val);
+        const hasObject = /(package|treatment|service)/i.test(val);
+        const spellingCheck = /\b(packege|packges|tratment)\b/i.test(val);
+
+        if (spellingCheck) {
+            errorLog.push("Spelling error detected. Double-check how you spelled 'packages'.");
+        } else if (!hasVerb) {
+            errorLog.push("Grammatical formation error. State what the action is (e.g., 'can enjoy...', 'can select...').");
+        } else if (!hasObject) {
+            errorLog.push("Object element missing. What exactly can your pet enjoy? (e.g., 'different packages').");
+        } else {
+            isCorrect = true;
+        }
+    } 
+    else if (num === 4) {
+        const hasVerb = /\b(is|costs|charges)\b/i.test(val);
+        const hasPrice = /580/.test(val);
+
+        if (!hasVerb) {
+            errorLog.push("Predicate error. Include a linking or cost verb like 'is' or 'costs'.");
+        } else if (!hasPrice) {
+            errorLog.push("Factual details missing. Ensure you reference the dynamic data value '$580'.");
+        } else {
+            isCorrect = true;
+        }
+    }
+
+    if (isCorrect) {
+        inputEl.className = 'correct';
+        feedbackEl.innerHTML = `<span class="success-msg">🟢 Excellent structure! Your sentence formation is grammatically accurate and fits the prompt perfectly.</span>`;
+    } else {
+        inputEl.className = 'incorrect';
+        feedbackEl.innerHTML = `<span class="error-msg">🔴 <strong>Sentence Correction:</strong> ${errorLog.join(' ')}</span>`;
+    }
+}
+
+function toggleHint(num) {
+    const hintEl = document.getElementById(`hint${num}`);
+    if (hintEl.style.display === 'block') {
+        hintEl.style.display = 'none';
+    } else {
+        hintEl.style.display = 'block';
+    }
+}
+</script>
+</body>
+</html>
