@@ -159,7 +159,6 @@
             min-width: 0; 
         }
 
-        /* Drops to next line cleanly on mobile screens */
         .text-display {
             font-size: 22px; 
             line-height: 1.6;
@@ -249,28 +248,29 @@
             border-radius: 6px;
         }
 
-        /* Orientation rules for small mobile constraints */
+        /* Orientation rules optimized for wide display on mobile viewports */
         @media (max-width: 768px) {
-            body { padding: 15px 10px; }
-            .container { padding: 25px 20px; border-radius: 20px; }
-            header h1 { font-size: 26px; }
+            body { padding: 10px 5px; } /* Minimized edge body spacing */
+            .container { padding: 20px 12px; border-radius: 16px; width: 100%; } /* Task boxes span full display width */
+            header h1 { font-size: 24px; }
             
             .practice-line {
                 grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 20px;
-                border-radius: 16px;
+                gap: 16px;
+                padding: 16px 12px;
+                border-radius: 12px;
+                width: 100%;
             }
             .line-controls {
                 flex-direction: row;
                 border-right: none;
                 border-bottom: 2px solid var(--primary-light);
                 padding-right: 0;
-                padding-bottom: 15px;
+                padding-bottom: 12px;
                 width: 100%;
             }
             .btn-ctrl { width: 100%; }
-            .text-display { font-size: 20px; }
+            .text-display { font-size: 19px; }
         }
 
         @keyframes pulse {
