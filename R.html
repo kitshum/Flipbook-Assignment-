@@ -97,7 +97,7 @@
             text-align: left;
         }
 
-        /* Line Workspaces with layout safety fallback */
+        /* Line Workspaces */
         .practice-line {
             display: grid;
             grid-template-columns: auto 1fr;
@@ -156,33 +156,25 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-width: 0; /* Webkit overflow layout safeguard */
+            min-width: 0; 
         }
 
-        /* Responsive Safe Single-Line Viewport Wrapper */
-        .text-scroll-container {
-            width: 100%;
-            overflow-x: auto;
-            white-space: nowrap;
-            scrollbar-width: none; /* Firefox hide bars */
-        }
-        .text-scroll-container::-webkit-scrollbar {
-            display: none; /* Chrome/Safari hide bars */
-        }
-
+        /* Drops to next line cleanly on mobile screens */
         .text-display {
             font-size: 22px; 
-            line-height: 1.5;
+            line-height: 1.6;
             border-bottom: 2px solid #444;
             padding-bottom: 10px;
             margin-bottom: 12px;
             color: #111;
-            display: inline-block;
+            display: flex;
+            flex-wrap: wrap; 
+            row-gap: 4px;
         }
 
         .word {
             display: inline-block;
-            padding: 0 3px;
+            padding: 0 4px;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.15s ease;
@@ -257,7 +249,7 @@
             border-radius: 6px;
         }
 
-        /* Adaptive Mobile Breakdown Orientation Rules */
+        /* Orientation rules for small mobile constraints */
         @media (max-width: 768px) {
             body { padding: 15px 10px; }
             .container { padding: 25px 20px; border-radius: 20px; }
@@ -278,7 +270,7 @@
                 width: 100%;
             }
             .btn-ctrl { width: 100%; }
-            .text-display { font-size: 19px; }
+            .text-display { font-size: 20px; }
         }
 
         @keyframes pulse {
@@ -311,9 +303,7 @@
                     <div class="syllable-tip" id="syllable-0"></div>
                     <button class="btn-word-practice" id="wordmic-0">🎙️ Practice Word</button>
                 </div>
-                <div class="text-scroll-container">
-                    <div class="text-display" id="display-0"></div>
-                </div>
+                <div class="text-display" id="display-0"></div>
                 <div class="feedback-metrics" id="feedback-0" style="display:none;">
                     <span id="transcript-0"></span>
                     <span class="score-lbl" id="score-0"></span>
@@ -332,9 +322,7 @@
                     <div class="syllable-tip" id="syllable-1"></div>
                     <button class="btn-word-practice" id="wordmic-1">🎙️ Practice Word</button>
                 </div>
-                <div class="text-scroll-container">
-                    <div class="text-display" id="display-1"></div>
-                </div>
+                <div class="text-display" id="display-1"></div>
                 <div class="feedback-metrics" id="feedback-1" style="display:none;">
                     <span id="transcript-1"></span>
                     <span class="score-lbl" id="score-1"></span>
