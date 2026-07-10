@@ -22,13 +22,6 @@
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-        .main-title {
-            font-weight: bold;
-            font-size: 18px;
-            margin-top: 0;
-            margin-bottom: 20px;
-            color: #111;
-        }
         /* Exercise Section Styles */
         .instruction-text {
             font-weight: bold;
@@ -45,12 +38,6 @@
         }
         .task-item:last-child {
             margin-bottom: 0;
-        }
-        .task-header {
-            font-weight: bold;
-            color: #e67e22;
-            margin-bottom: 8px;
-            font-size: 14px;
         }
         .input-row {
             display: flex;
@@ -137,12 +124,10 @@
 <body>
 
 <div class="container">
-    <div class="main-title">2. Service to be promoted: Happy Pet Spa</div>
 
     <div class="instruction-text">Please enter your answers below.</div>
     
     <div class="task-item">
-        <div class="task-header">Target Feature 1: • Professional spa treatments for pets</div>
         <div class="input-row">
             <span class="subject-noun">This service</span>
             <input type="text" id="blank1" placeholder="Fill in the verb and object part...">
@@ -156,7 +141,6 @@
     </div>
 
     <div class="task-item">
-        <div class="task-header">Target Feature 2: • Relaxing environment</div>
         <div class="input-row">
             <span class="subject-noun">Our environment</span>
             <input type="text" id="blank2" placeholder="Fill in the verb and object/adjective...">
@@ -170,7 +154,6 @@
     </div>
 
     <div class="task-item">
-        <div class="task-header">Target Feature 3: • Different packages available</div>
         <div class="input-row">
             <span class="subject-noun">Your pet</span>
             <input type="text" id="blank3" placeholder="Fill in the verb and object part...">
@@ -184,7 +167,6 @@
     </div>
 
     <div class="task-item">
-        <div class="task-header">Target Feature 4: • $580/session</div>
         <div class="input-row">
             <span class="subject-noun">The fee</span>
             <input type="text" id="blank4" placeholder="Fill in the verb and object part...">
@@ -233,13 +215,13 @@ function validateField(num) {
         }
     } 
     else if (num === 2) {
-        const_hasVerb = /\b(is|provides|creates|offers)\b/i.test(val);
+        const hasVerb = /\b(is|provides|creates|offers)\b/i.test(val);
         const hasAdjOrNoun = /\b(relaxing|comfortable|peaceful|calm)\b/i.test(val);
         const spellingCheck = /\b(relaxin|enviroment)\b/i.test(val);
 
         if (spellingCheck) {
             errorLog.push("Spelling issue found. Review the word formations carefully.");
-        } else if (!const_hasVerb) {
+        } else if (!hasVerb) {
             errorLog.push("Missing a linking or main predicate verb (e.g., use 'is' to connect your subject to the descriptive adjective).");
         } else if (!hasAdjOrNoun) {
             errorLog.push("Contextual mismatch. The sentence needs to include 'relaxing' or an equivalent context descriptor.");
@@ -269,7 +251,7 @@ function validateField(num) {
         if (!hasVerb) {
             errorLog.push("Predicate error. Include a linking or cost verb like 'is' or 'costs'.");
         } else if (!hasPrice) {
-            errorLog.push("Factual details missing. Ensure you reference the dynamic data value '$580'.");
+            errorLog.push("Factual details missing. Ensure you reference the data value '580'.");
         } else {
             isCorrect = true;
         }
