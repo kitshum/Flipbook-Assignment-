@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LAN3109 Revision Package</title>
     <style>
         :root {
@@ -28,7 +28,6 @@
             align-items: center;
             box-sizing: border-box;
             position: relative;
-            /* Vibrant, appealing mesh gradient background */
             background: radial-gradient(at 0% 0%, #e8f5e9 0px, transparent 50%),
                         radial-gradient(at 100% 0%, #e3f2fd 0px, transparent 50%),
                         radial-gradient(at 100% 100%, #fff3e0 0px, transparent 50%),
@@ -98,7 +97,7 @@
             text-align: left;
         }
 
-        /* Line Workspaces with individual high-contrast floating style */
+        /* Line Workspaces with layout safety fallback */
         .practice-line {
             display: grid;
             grid-template-columns: auto 1fr;
@@ -157,9 +156,20 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            min-width: 0; /* Webkit overflow layout safeguard */
         }
 
-        /* Strict Single Line Constraints */
+        /* Responsive Safe Single-Line Viewport Wrapper */
+        .text-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: none; /* Firefox hide bars */
+        }
+        .text-scroll-container::-webkit-scrollbar {
+            display: none; /* Chrome/Safari hide bars */
+        }
+
         .text-display {
             font-size: 22px; 
             line-height: 1.5;
@@ -167,7 +177,7 @@
             padding-bottom: 10px;
             margin-bottom: 12px;
             color: #111;
-            white-space: nowrap; 
+            display: inline-block;
         }
 
         .word {
@@ -194,6 +204,7 @@
             gap: 15px;
             margin-bottom: 10px;
             min-height: 38px;
+            flex-wrap: wrap;
         }
 
         .syllable-tip {
@@ -238,11 +249,36 @@
             background: rgba(0,0,0,0.03);
             padding: 10px 14px;
             border-radius: 8px;
+            flex-wrap: wrap;
         }
         .score-lbl {
             font-weight: bold;
             padding: 4px 12px;
             border-radius: 6px;
+        }
+
+        /* Adaptive Mobile Breakdown Orientation Rules */
+        @media (max-width: 768px) {
+            body { padding: 15px 10px; }
+            .container { padding: 25px 20px; border-radius: 20px; }
+            header h1 { font-size: 26px; }
+            
+            .practice-line {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+                border-radius: 16px;
+            }
+            .line-controls {
+                flex-direction: row;
+                border-right: none;
+                border-bottom: 2px solid var(--primary-light);
+                padding-right: 0;
+                padding-bottom: 15px;
+                width: 100%;
+            }
+            .btn-ctrl { width: 100%; }
+            .text-display { font-size: 19px; }
         }
 
         @keyframes pulse {
@@ -275,7 +311,9 @@
                     <div class="syllable-tip" id="syllable-0"></div>
                     <button class="btn-word-practice" id="wordmic-0">🎙️ Practice Word</button>
                 </div>
-                <div class="text-display" id="display-0"></div>
+                <div class="text-scroll-container">
+                    <div class="text-display" id="display-0"></div>
+                </div>
                 <div class="feedback-metrics" id="feedback-0" style="display:none;">
                     <span id="transcript-0"></span>
                     <span class="score-lbl" id="score-0"></span>
@@ -294,7 +332,9 @@
                     <div class="syllable-tip" id="syllable-1"></div>
                     <button class="btn-word-practice" id="wordmic-1">🎙️ Practice Word</button>
                 </div>
-                <div class="text-display" id="display-1"></div>
+                <div class="text-scroll-container">
+                    <div class="text-display" id="display-1"></div>
+                </div>
                 <div class="feedback-metrics" id="feedback-1" style="display:none;">
                     <span id="transcript-1"></span>
                     <span class="score-lbl" id="score-1"></span>
@@ -350,7 +390,6 @@
         let currentlyPlayingLine = null;
         let isUserStopping = false;
 
-        // Render Words safely into lines
         structuralLines.forEach(lineData => {
             const displayEl = document.getElementById(`display-${lineData.lineIndex}`);
             lineData.words.forEach((w, wIdx) => {
@@ -369,7 +408,6 @@
             });
         });
 
-        // Combined Play/Pause Text-to-Speech Flow Control (0.72 speed rate)
         function togglePlay(lineIndex) {
             const playBtn = document.getElementById(`playbtn-${lineIndex}`);
 
@@ -445,7 +483,7 @@
             tipContainer.className = "syllable-tip active"; 
             tipContainer.innerHTML = syllablesArray.join(" • ");
 
-            const wordMic = document.getElementById(`wordmic-${lineIndex}`);
+            const wordMic = document.getElementById('wordmic-' + lineIndex);
             wordMic.style.display = "inline-block";
             wordMic.innerText = "🎙️ Practice Word";
             wordMic.className = "btn-word-practice";
@@ -495,7 +533,6 @@
             wordTracker.start();
         }
 
-        // Full Sentence Voice Capture (Stops only when clicked)
         function toggleRecording(lineIndex) {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
