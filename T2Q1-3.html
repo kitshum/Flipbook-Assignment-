@@ -89,11 +89,19 @@
         }
 
         .task-label {
-            font-size: 19px;
+            font-size: 20px;
             font-weight: 700;
             color: #1e88e5;
             letter-spacing: 0.5px;
             margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .question-label {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1e88e5;
+            margin: 25px 0 15px 0;
             text-align: left;
         }
 
@@ -290,7 +298,9 @@
             <h1><b>LAN3109 Revision Package (Assignment)</b></h1>
         </header>
 
-        <div class="task-label">Task 2 example</div>
+        <div class="task-label"><b>Task 2</b></div>
+
+        <div class="question-label">Question 1</div>
 
         <div class="practice-line" id="block-0">
             <div class="line-controls">
@@ -330,6 +340,86 @@
             </div>
         </div>
 
+        <div class="question-label">Question 2</div>
+
+        <div class="practice-line" id="block-2">
+            <div class="line-controls">
+                <button class="btn-ctrl btn-toggle-play" id="playbtn-2" onclick="togglePlay(2)">▶️ Play</button>
+                <button class="btn-ctrl btn-mic" id="mic-2" onclick="toggleRecording(2)">🎙️ Record</button>
+                <button class="btn-ctrl btn-check" id="check-2" onclick="evaluatePronunciation(2)">🔍 Check</button>
+            </div>
+            <div class="line-workspace">
+                <div class="syllable-row">
+                    <div class="syllable-tip" id="syllable-2"></div>
+                    <button class="btn-word-practice" id="wordmic-2">🎙️ Practice Word</button>
+                </div>
+                <div class="text-display" id="display-2"></div>
+                <div class="feedback-metrics" id="feedback-2" style="display:none;">
+                    <span id="transcript-2"></span>
+                    <span class="score-lbl" id="score-2"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="practice-line" id="block-3">
+            <div class="line-controls">
+                <button class="btn-ctrl btn-toggle-play" id="playbtn-3" onclick="togglePlay(3)">▶️ Play</button>
+                <button class="btn-ctrl btn-mic" id="mic-3" onclick="toggleRecording(3)">🎙️ Record</button>
+                <button class="btn-ctrl btn-check" id="check-3" onclick="evaluatePronunciation(3)">🔍 Check</button>
+            </div>
+            <div class="line-workspace">
+                <div class="syllable-row">
+                    <div class="syllable-tip" id="syllable-3"></div>
+                    <button class="btn-word-practice" id="wordmic-3">🎙️ Practice Word</button>
+                </div>
+                <div class="text-display" id="display-3"></div>
+                <div class="feedback-metrics" id="feedback-3" style="display:none;">
+                    <span id="transcript-3"></span>
+                    <span class="score-lbl" id="score-3"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-label">Question 3</div>
+
+        <div class="practice-line" id="block-4">
+            <div class="line-controls">
+                <button class="btn-ctrl btn-toggle-play" id="playbtn-4" onclick="togglePlay(4)">▶️ Play</button>
+                <button class="btn-ctrl btn-mic" id="mic-4" onclick="toggleRecording(4)">🎙️ Record</button>
+                <button class="btn-ctrl btn-check" id="check-4" onclick="evaluatePronunciation(4)">🔍 Check</button>
+            </div>
+            <div class="line-workspace">
+                <div class="syllable-row">
+                    <div class="syllable-tip" id="syllable-4"></div>
+                    <button class="btn-word-practice" id="wordmic-4">🎙️ Practice Word</button>
+                </div>
+                <div class="text-display" id="display-4"></div>
+                <div class="feedback-metrics" id="feedback-4" style="display:none;">
+                    <span id="transcript-4"></span>
+                    <span class="score-lbl" id="score-4"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="practice-line" id="block-5">
+            <div class="line-controls">
+                <button class="btn-ctrl btn-toggle-play" id="playbtn-5" onclick="togglePlay(5)">▶️ Play</button>
+                <button class="btn-ctrl btn-mic" id="mic-5" onclick="toggleRecording(5)">🎙️ Record</button>
+                <button class="btn-ctrl btn-check" id="check-5" onclick="evaluatePronunciation(5)">🔍 Check</button>
+            </div>
+            <div class="line-workspace">
+                <div class="syllable-row">
+                    <div class="syllable-tip" id="syllable-5"></div>
+                    <button class="btn-word-practice" id="wordmic-5">🎙️ Practice Word</button>
+                </div>
+                <div class="text-display" id="display-5"></div>
+                <div class="feedback-metrics" id="feedback-5" style="display:none;">
+                    <span id="transcript-5"></span>
+                    <span class="score-lbl" id="score-5"></span>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -338,33 +428,101 @@
                 lineIndex: 0,
                 words: [
                     { raw: "Good", bold: true, syllables: ["<span class='s1'>Good</span>"] },
-                    { raw: "morning,", bold: true, syllables: ["<span class='s1'>morn</span>", "<span class='s2'>ing</span>"] },
-                    { raw: "thank", bold: true, syllables: ["<span class='s1'>thank</span>"] },
-                    { raw: "you", bold: true, syllables: ["<span class='s1'>you</span>"] },
-                    { raw: "for", bold: true, syllables: ["<span class='s1'>for</span>"] },
-                    { raw: "calling", bold: true, syllables: ["<span class='s1'>call</span>", "<span class='s2'>ing</span>"] },
+                    { raw: "afternoon,", bold: true, syllables: ["<span class='s1'>af</span>", "<span class='s2'>ter</span>", "<span class='s3'>noon</span>"] },
+                    { raw: "welcome", bold: true, syllables: ["<span class='s1'>wel</span>", "<span class='s2'>come</span>"] },
+                    { raw: "to", bold: true, syllables: ["<span class='s1'>to</span>"] },
                     { raw: "the", bold: true, syllables: ["<span class='s1'>the</span>"] },
-                    { raw: "Hong", bold: false, syllables: ["<span class='s1'>Hong</span>"] },
-                    { raw: "Kong", bold: false, syllables: ["<span class='s1'>Kong</span>"] },
-                    { raw: "Green", bold: false, syllables: ["<span class='s1'>Green</span>"] },
-                    { raw: "Club.", bold: false, syllables: ["<span class='s1'>Club</span>"] }
+                    { raw: "Yummy", bold: false, syllables: ["<span class='s1'>Yum</span>", "<span class='s2'>my</span>"] },
+                    { raw: "Bakery", bold: false, syllables: ["<span class='s1'>Bake</span>", "<span class='s2'>ry</span>"] },
+                    { raw: "hotline.", bold: false, syllables: ["<span class='s1'>hot</span>", "<span class='s2'>line</span>"] }
                 ]
             },
             {
                 lineIndex: 1,
                 words: [
                     { raw: "We", bold: true, syllables: ["<span class='s1'>We</span>"] },
+                    { raw: "are", bold: true, syllables: ["<span class='s1'>are</span>"] },
+                    { raw: "pleased", bold: true, syllables: ["<span class='s1'>pleased</span>"] },
+                    { raw: "to", bold: true, syllables: ["<span class='s1'>to</span>"] },
+                    { raw: "introduce", bold: true, syllables: ["<span class='s1'>in</span>", "<span class='s2'>tro</span>", "<span class='s3'>duce</span>"] },
+                    { raw: "you", bold: true, syllables: ["<span class='s1'>you</span>"] },
+                    { raw: "to", bold: true, syllables: ["<span class='s1'>to</span>"] },
+                    { raw: "the", bold: true, syllables: ["<span class='s1'>the</span>"] },
+                    { raw: "launch", bold: true, syllables: ["<span class='s1'>launch</span>"] },
+                    { raw: "of", bold: true, syllables: ["<span class='s1'>of</span>"] },
+                    { raw: "our", bold: true, syllables: ["<span class='s1'>our</span>"] },
+                    { raw: "new", bold: true, syllables: ["<span class='s1'>new</span>"] },
+                    { raw: "product", bold: false, syllables: ["<span class='s1'>prod</span>", "<span class='s2'>uct</span>"] },
+                    { raw: "called", bold: false, syllables: ["<span class='s1'>called</span>"] },
+                    { raw: "Easter", bold: false, syllables: ["<span class='s1'>East</span>", "<span class='s2'>er</span>"] },
+                    { raw: "Cupcakes.", bold: false, syllables: ["<span class='s1'>Cup</span>", "<span class='s2'>cakes</span>"] }
+                ]
+            },
+            {
+                lineIndex: 2,
+                words: [
+                    { raw: "Good", bold: true, syllables: ["<span class='s1'>Good</span>"] },
+                    { raw: "evening,", bold: true, syllables: ["<span class='s1'>eve</span>", "<span class='s2'>ning</span>"] },
+                    { raw: "thank", bold: true, syllables: ["<span class='s1'>thank</span>"] },
+                    { raw: "you", bold: true, syllables: ["<span class='s1'>you</span>"] },
+                    { raw: "for", bold: true, syllables: ["<span class='s1'>for</span>"] },
+                    { raw: "calling", bold: true, syllables: ["<span class='s1'>call</span>", "<span class='s2'>ing</span>"] },
+                    { raw: "the", bold: true, syllables: ["<span class='s1'>the</span>"] },
+                    { raw: "Pet", bold: false, syllables: ["<span class='s1'>Pet</span>"] },
+                    { raw: "Kingdom.", bold: false, syllables: ["<span class='s1'>King</span>", "<span class='s2'>dom</span>"] }
+                ]
+            },
+            {
+                lineIndex: 3,
+                words: [
+                    { raw: "We", bold: true, syllables: ["<span class='s1'>We</span>"] },
                     { raw: "would", bold: true, syllables: ["<span class='s1'>would</span>"] },
                     { raw: "like", bold: true, syllables: ["<span class='s1'>like</span>"] },
                     { raw: "to", bold: true, syllables: ["<span class='s1'>to</span>"] },
                     { raw: "announce", bold: true, syllables: ["<span class='s1'>an</span>", "<span class='s2'>nounce</span>"] },
+                    { raw: "the", bold: true, syllables: ["<span class='s1'>the</span>"] },
+                    { raw: "launch", bold: true, syllables: ["<span class='s1'>launch</span>"] },
+                    { raw: "of", bold: true, syllables: ["<span class='s1'>of</span>"] },
                     { raw: "a", bold: true, syllables: ["<span class='s1'>a</span>"] },
                     { raw: "new", bold: true, syllables: ["<span class='s1'>new</span>"] },
-                    { raw: "event", bold: false, syllables: ["<span class='s1'>e</span>", "<span class='s2'>vent</span>"] },
-                    { raw: "called", bold: false, syllables: ["<span class='s1'>called</span>"] },
-                    { raw: "'Love", bold: false, syllables: ["<span class='s1'>Love</span>"] },
-                    { raw: "the", bold: false, syllables: ["<span class='s1'>the</span>"] },
-                    { raw: "Planet'.", bold: false, syllables: ["<span class='s1'>Plan</span>", "<span class='s2'>et</span>"] }
+                    { raw: "service", bold: false, syllables: ["<span class='s1'>ser</span>", "<span class='s2'>vice</span>"] },
+                    { raw: "entitled", bold: false, syllables: ["<span class='s1'>en</span>", "<span class='s2'>ti</span>", "<span class='s3'>tled</span>"] },
+                    { raw: "Happy", bold: false, syllables: ["<span class='s1'>Hap</span>", "<span class='s2'>py</span>"] },
+                    { raw: "Pet", bold: false, syllables: ["<span class='s1'>Pet</span>"] },
+                    { raw: "Spa.", bold: false, syllables: ["<span class='s1'>Spa</span>"] }
+                ]
+            },
+            {
+                lineIndex: 4,
+                words: [
+                    { raw: "Good", bold: true, syllables: ["<span class='s1'>Good</span>"] },
+                    { raw: "morning,", bold: true, syllables: ["<span class='s1'>morn</span>", "<span class='s2'>ing</span>"] },
+                    { raw: "welcome", bold: true, syllables: ["<span class='s1'>wel</span>", "<span class='s2'>come</span>"] },
+                    { raw: "to", bold: true, syllables: ["<span class='s1'>to</span>"] },
+                    { raw: "the", bold: true, syllables: ["<span class='s1'>the</span>"] },
+                    { raw: "Hong", bold: false, syllables: ["<span class='s1'>Hong</span>"] },
+                    { raw: "Kong", bold: false, syllables: ["<span class='s1'>Kong</span>"] },
+                    { raw: "Disneyland", bold: false, syllables: ["<span class='s1'>Dis</span>", "<span class='s2'>ney</span>", "<span class='s3'>land</span>"] },
+                    { raw: "hotline.", bold: false, syllables: ["<span class='s1'>hot</span>", "<span class='s2'>line</span>"] }
+                ]
+            },
+            {
+                lineIndex: 5,
+                words: [
+                    { raw: "We", bold: true, syllables: ["<span class='s1'>We</span>"] },
+                    { raw: "are", bold: true, syllables: ["<span class='s1'>are</span>"] },
+                    { raw: "pleased", bold: true, syllables: ["<span class='s1'>pleased</span>"] },
+                    { raw: "to", bold: true, syllables: ["<span class='s1'>to</span>"] },
+                    { raw: "introduce", bold: true, syllables: ["<span class='s1'>in</span>", "<span class='s2'>tro</span>", "<span class='s3'>duce</span>"] },
+                    { raw: "you", bold: true, syllables: ["<span class='s1'>you</span>"] },
+                    { raw: "to", bold: true, syllables: ["<span class='s1'>to</span>"] },
+                    { raw: "our", bold: true, syllables: ["<span class='s1'>our</span>"] },
+                    { raw: "new", bold: true, syllables: ["<span class='s1'>new</span>"] },
+                    { raw: "promotion", bold: true, syllables: ["<span class='s1'>pro</span>", "<span class='s2'>mo</span>", "<span class='s3'>tion</span>"] },
+                    { raw: "called", bold: true, syllables: ["<span class='s1'>called</span>"] },
+                    { raw: "Magical", bold: false, syllables: ["<span class='s1'>Mag</span>", "<span class='s2'>i</span>", "<span class='s3'>cal</span>"] },
+                    { raw: "Summer", bold: false, syllables: ["<span class='s1'>Sum</span>", "<span class='s2'>mer</span>"] },
+                    { raw: "Nights.", bold: false, syllables: ["<span class='s1'>Nights</span>"] }
                 ]
             }
         ];
@@ -422,7 +580,7 @@
                 
                 activeUtterance = new SpeechSynthesisUtterance(remainingWords);
                 activeUtterance.lang = 'en-US';
-                activeUtterance.rate = 0.72; 
+                activeUtterance.rate = 0.47; 
 
                 activeUtterance.onboundary = function(event) {
                     if (event.name === 'word') {
