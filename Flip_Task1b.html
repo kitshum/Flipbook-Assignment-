@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promotional Hotline Message Activity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+
+        /* Yellow text highlight style matching the image */
+        .yellow-audio-box {
+            background-color: #fef9c3; /* Tailwind yellow-100 */
+            border: 1px solid #fef08a;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .yellow-audio-box:hover {
+            background-color: #fef08a;
+            box-shadow: 0 2px 8px rgba(234, 179, 8, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .yellow-audio-box.speaking {
+            background-color: #fde047;
+            border-color: #eab308;
+            box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.4);
+            animation: pulse-border 1.5s infinite;
+        }
+
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0px rgba(234, 179, 8, 0.6); }
+            70% { box-shadow: 0 0 0 6px rgba(234, 179, 8, 0); }
+            100% { box-shadow: 0 0 0 0px rgba(234, 179, 8, 0); }
+        }
+
+        /* Drag and Drop Card Styles */
+        .draggable-card {
+            cursor: grab;
+            user-select: none;
+            touch-action: manipulation;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+        }
+
+        .draggable-card:active {
+            cursor: grabbing;
+        }
+
+        .draggable-card.dragging {
+            opacity: 0.4;
+            transform: scale(0.96);
+        }
+
+        .draggable-card.selected-tap {
+            outline: 3px solid #2563eb;
+            background-color: #eff6ff;
+        }
+
+        /* Drop Zone Styles */
+        .drop-zone {
+            min-height: 70px;
+            transition: all 0.2s ease;
+        }
+
+        .drop-zone.drag-over {
+            background-color: #dbeafe !important;
+            border-color: #3b82f6 !important;
+            border-style: dashed;
+        }
+
+        /* Table custom lines */
+        .custom-table th, .custom-table td {
+            border: 1px solid #94a3b8;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 p-3 sm:p-6 lg:p-10 flex flex-col items-center">
+
+    <main class="w-full max-w-5xl bg-white shadow-xl rounded-2xl p-4 sm:p-8 border border-slate-200">
+        
+        <!-- Component Bank Section (Sticky Top) -->
+        <section class="sticky top-2 z-50 mb-8 bg-slate-100/95 backdrop-blur-md p-4 sm:p-6 rounded-xl border border-slate-300 shadow-md">
+            <!-- Grid of 6 Draggable Cards -->
+            <div id="component-bank" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 min-h-[110px] p-2 bg-slate-200/50 rounded-lg border border-dashed border-slate-300 transition-colors">
+                <!-- Draggable cards will be injected here via JavaScript -->
+            </div>
+        </section>
+
+        <!-- Worksheet Table -->
+        <div class="overflow-x-auto rounded-lg border border-slate-400 shadow-sm mb-6">
+            <table class="w-full custom-table border-collapse text-left text-xs sm:text-sm md:text-base">
+                <thead>
+                    <tr class="bg-sky-100 text-slate-800 font-bold text-center">
+                        <th class="p-3 w-1/6 min-w-[90px] border-r border-slate-400">Part</th>
+                        <th class="p-3 w-3/6 min-w-[280px] border-r border-slate-400">
+                            Promotional hotline message - <br class="hidden sm:inline"/>Family Fun Day
+                        </th>
+                        <th class="p-3 w-2/6 min-w-[200px]">Component</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-400 bg-white">
+                    
+                    <!-- Row 1: Opening (Pre-filled example) -->
+                    <tr>
+                        <td class="p-3 font-semibold text-center bg-slate-50 align-middle">Opening</td>
+                        <td class="p-3 align-top">
+                            <div class="yellow-audio-box p-3 rounded-lg flex items-start gap-2" data-audio-text="Good morning, welcome to the Central Community Centre hotline. We are pleased to announce an upcoming event called 'Family Fun Day'.">
+                                <span class="text-slate-800 leading-relaxed">
+                                    Good morning, welcome to the Central Community Centre hotline. We are pleased to announce an upcoming event called 'Family Fun Day'.
+                                </span>
+                                <button type="button" class="audio-btn text-amber-700 hover:text-amber-900 focus:outline-none ml-auto shrink-0" title="Listen to audio">
+                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="p-3 bg-slate-50 font-normal text-slate-700 align-middle italic">
+                            e.g., Greeting and announcement of the event
+                        </td>
+                    </tr>
+
+                    <!-- Row 2: Body Item 1 -->
+                    <tr>
+                        <td class="p-3 font-semibold text-center bg-slate-50 align-middle text-slate-800 border-b border-slate-400" rowspan="5">
+                            Body
+                        </td>
+                        <td class="p-3 align-top">
+                            <div class="yellow-audio-box p-3 rounded-lg flex items-start gap-2" data-audio-text="It is perfect for families with children who are 6 years old or above. You can play exciting games and join interesting workshops in our new recreation centre in Sai Kung. The fee is only $80 per person, including lunch.">
+                                <span class="text-slate-800 leading-relaxed">
+                                    It is perfect for families with children who are 6 years old or above. You can play exciting games and join interesting workshops in our new recreation centre in Sai Kung. The fee is only $80 per person, including lunch.
+                                </span>
+                                <button type="button" class="audio-btn text-amber-700 hover:text-amber-900 focus:outline-none ml-auto shrink-0" title="Listen to audio">
+                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="p-2 align-middle">
+                            <div class="drop-zone p-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 flex flex-col justify-center items-center min-h-[80px]" data-target-id="1">
+                                <!-- Target 1 placeholder -->
+                            </div>
+                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs text-emerald-800 font-medium"></div>
+                        </td>
+                    </tr>
+
+                    <!-- Row 3: Body Item 2 -->
+                    <tr>
+                        <td class="p-3 align-top">
+                            <div class="yellow-audio-box p-3 rounded-lg flex items-start gap-2" data-audio-text="Join this event because it is an enjoyable family activity. Also, it can foster family relationships.">
+                                <span class="text-slate-800 leading-relaxed">
+                                    Join this event because it is an enjoyable family activity. Also, it can foster family relationships.
+                                </span>
+                                <button type="button" class="audio-btn text-amber-700 hover:text-amber-900 focus:outline-none ml-auto shrink-0" title="Listen to audio">
+                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="p-2 align-middle">
+                            <div class="drop-zone p-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 flex flex-col justify-center items-center min-h-[80px]" data-target-id="2">
+                                <!-- Target 2 placeholder -->
+                            </div>
+                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs text-emerald-800 font-medium"></div>
+                        </td>
+                    </tr>
+
+                    <!-- Row 4: Body Item 3 -->
+                    <tr>
+                        <td class="p-3 align-top">
+                            <div class="yellow-audio-box p-3 rounded-lg flex items-start gap-2" data-audio-text="You can enrol online at www.centralcc.o r g.hk, or you can visit our centre at 101 Queen's Road, Central. The enrolment deadline is 22 October.">
+                                <span class="text-slate-800 leading-relaxed">
+                                    You can enrol online at <span class="underline text-blue-800">www.centralcc.org.hk</span>, or you can visit our centre at 101 Queen's Road, Central. The enrolment deadline is 22 October.
+                                </span>
+                                <button type="button" class="audio-btn text-amber-700 hover:text-amber-900 focus:outline-none ml-auto shrink-0" title="Listen to audio">
+                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="p-2 align-middle">
+                            <div class="drop-zone p-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 flex flex-col justify-center items-center min-h-[80px]" data-target-id="3">
+                                <!-- Target 3 placeholder -->
+                            </div>
+                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs text-emerald-800 font-medium"></div>
+                        </td>
+                    </tr>
+
+                    <!-- Row 5: Body Item 4 -->
+                    <tr>
+                        <td class="p-3 align-top">
+                            <div class="yellow-audio-box p-3 rounded-lg flex items-start gap-2" data-audio-text="The first 10 successfully enrolled families will be offered a $50 supermarket voucher, which is sponsored by Best Market.">
+                                <span class="text-slate-800 leading-relaxed">
+                                    The first 10 successfully enrolled families will be offered a $50 supermarket voucher, which is sponsored by Best Market.
+                                </span>
+                                <button type="button" class="audio-btn text-amber-700 hover:text-amber-900 focus:outline-none ml-auto shrink-0" title="Listen to audio">
+                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="p-2 align-middle">
+                            <div class="drop-zone p-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 flex flex-col justify-center items-center min-h-[80px]" data-target-id="4">
+                                <!-- Target 4 placeholder -->
+                            </div>
+                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs text-emerald-800 font-medium"></div>
+                        </td>
+                    </tr>
+
+                    <!-- Row 6: Body Item 5 -->
+                    <tr>
+                        <td class="p-3 align-top">
+                            <div class="yellow-audio-box p-3 rounded-lg flex items-start gap-2" data-audio-text="Don't miss the chance. Enrol now.">
+                                <span class="text-slate-800 leading-relaxed">
+                                    Don't miss the chance. Enrol now.
+                                </span>
+                                <button type="button" class="audio-btn text-amber-700 hover:text-amber-900 focus:outline-none ml-auto shrink-0" title="Listen to audio">
+                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="p-2 align-middle">
+                            <div class="drop-zone p-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 flex flex-col justify-center items-center min-h-[80px]" data-target-id="5">
+                                <!-- Target 5 placeholder -->
+                            </div>
+                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs text-emerald-800 font-medium"></div>
+                        </td>
+                    </tr>
+
+                    <!-- Row 7: Closing -->
+                    <tr>
+                        <td class="p-3 font-semibold text-center bg-slate-50 align-middle">Closing</td>
+                        <td class="p-3 align-top">
+                            <div class="yellow-audio-box p-3 rounded-lg flex items-start gap-2" data-audio-text="Thank you for using our hotline. We look forward to seeing you. Goodbye.">
+                                <span class="text-slate-800 leading-relaxed">
+                                    Thank you for using our hotline. We look forward to seeing you. Goodbye.
+                                </span>
+                                <button type="button" class="audio-btn text-amber-700 hover:text-amber-900 focus:outline-none ml-auto shrink-0" title="Listen to audio">
+                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="p-2 align-middle">
+                            <div class="drop-zone p-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 flex flex-col justify-center items-center min-h-[80px]" data-target-id="6">
+                                <!-- Target 6 placeholder -->
+                            </div>
+                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs text-emerald-800 font-medium"></div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bottom Action Controls -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
+            <div class="flex items-center gap-3">
+                <button id="btn-submit" type="button" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold text-base rounded-xl shadow-md hover:shadow-lg transition flex items-center gap-2">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Submit</span>
+                </button>
+
+                <button id="btn-retry" type="button" class="px-6 py-3 bg-slate-200 hover:bg-slate-300 active:bg-slate-400 text-slate-800 font-semibold text-base rounded-xl transition flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>Retry</span>
+                </button>
+            </div>
+
+            <p class="text-xs text-slate-500 italic">
+                Tip: You can drag items back to top or click an item then click a slot to place it.
+            </p>
+        </div>
+
+    </main>
+
+    <script>
+        // Data model for the 6 components and correct mappings
+        const componentsData = [
+            { id: "c1", text: "Details and features of the event" },
+            { id: "c2", text: "Reasons for joining the event" },
+            { id: "c3", text: "Thanks and goodbye" },
+            { id: "c4", text: "Other information, e.g., enrolment methods" },
+            { id: "c5", text: "Special offer to participants" },
+            { id: "c6", text: "Call to action" }
+        ];
+
+        // Correct Answer Key mapping Target ID -> Component ID
+        const answerKey = {
+            "1": "c1", // Details and features...
+            "2": "c2", // Reasons for joining...
+            "3": "c4", // Other information...
+            "4": "c5", // Special offer...
+            "5": "c6", // Call to action
+            "6": "c3"  // Thanks and goodbye
+        };
+
+        // State tracking
+        let draggedComponentId = null;
+        let selectedTapComponentId = null;
+        let activeAudioElement = null;
+        let isSubmitted = false;
+        let cachedVoice = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initComponentBank();
+            setupDropZones();
+            setupAudioSynthesis();
+            setupActionButtons();
+        });
+
+        function getConsistentVoice() {
+            if (cachedVoice) return cachedVoice;
+            const voices = window.speechSynthesis.getVoices();
+            if (voices.length > 0) {
+                // Filter English voices and prioritize young/clear female voice profiles
+                const englishVoices = voices.filter(v => v.lang.startsWith('en'));
+                const femaleKeywords = ['Samantha', 'Aria', 'Jenny', 'Victoria', 'Fiona', 'Karen', 'Zira', 'Sonia', 'Google US English', 'Female'];
+                
+                cachedVoice = englishVoices.find(v => femaleKeywords.some(kw => v.name.includes(kw))) || englishVoices[0] || voices[0];
+            }
+            return cachedVoice;
+        }
+
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                getConsistentVoice();
+            };
+        }
+
+        // Initialize top component cards
+        function initComponentBank() {
+            const bank = document.getElementById('component-bank');
+            bank.innerHTML = '';
+            
+            componentsData.forEach(comp => {
+                const card = createCardElement(comp);
+                bank.appendChild(card);
+            });
+
+            updateBankCounter();
+        }
+
+        // Create a draggable card HTML element
+        function createCardElement(comp) {
+            const card = document.createElement('div');
+            card.id = comp.id;
+            card.className = 'draggable-card p-3 bg-white border-2 border-slate-300 rounded-lg shadow-sm text-center font-medium text-slate-800 text-xs sm:text-sm hover:border-blue-400 hover:shadow-md flex items-center justify-center min-h-[50px] w-full';
+            card.setAttribute('draggable', 'true');
+            card.setAttribute('data-id', comp.id);
+            card.innerText = comp.text;
+
+            // HTML5 Drag Events
+            card.addEventListener('dragstart', handleDragStart);
+            card.addEventListener('dragend', handleDragEnd);
+
+            // Tap/Click to Select for Touch devices & Keyboard accessibility
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (isSubmitted) return;
+                handleCardTap(card);
+            });
+
+            return card;
+        }
+
+        function handleDragStart(e) {
+            if (isSubmitted) {
+                e.preventDefault();
+                return;
+            }
+            draggedComponentId = this.getAttribute('data-id');
+            this.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', draggedComponentId);
+            e.dataTransfer.effectAllowed = 'move';
+
+            // Clear tap selection if active
+            clearTapSelection();
+        }
+
+        function handleDragEnd() {
+            this.classList.remove('dragging');
+            draggedComponentId = null;
+        }
+
+        // Tap to select logic
+        function handleCardTap(card) {
+            const compId = card.getAttribute('data-id');
+
+            if (selectedTapComponentId === compId) {
+                // Unselect if tapped again
+                clearTapSelection();
+            } else {
+                clearTapSelection();
+                selectedTapComponentId = compId;
+                card.classList.add('selected-tap');
+            }
+        }
+
+        function clearTapSelection() {
+            selectedTapComponentId = null;
+            document.querySelectorAll('.draggable-card').forEach(c => c.classList.remove('selected-tap'));
+        }
+
+        // Setup drop zones (both the 6 table slots and the component bank)
+        function setupDropZones() {
+            const dropZones = document.querySelectorAll('.drop-zone');
+            const bank = document.getElementById('component-bank');
+
+            // Set up main table drop targets
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', handleDragOver);
+                zone.addEventListener('dragenter', handleDragEnter);
+                zone.addEventListener('dragleave', handleDragLeave);
+                zone.addEventListener('drop', handleDropOnTarget);
+
+                // Click event for tap-to-place
+                zone.addEventListener('click', () => {
+                    if (isSubmitted) return;
+                    if (selectedTapComponentId) {
+                        placeComponentInZone(selectedTapComponentId, zone);
+                        clearTapSelection();
+                    }
+                });
+            });
+
+            // Set up component bank as drop zone (to return items)
+            bank.addEventListener('dragover', handleDragOver);
+            bank.addEventListener('dragenter', handleDragEnter);
+            bank.addEventListener('dragleave', handleDragLeave);
+            bank.addEventListener('drop', (e) => {
+                e.preventDefault();
+                bank.classList.remove('drag-over');
+                const compId = e.dataTransfer.getData('text/plain') || draggedComponentId;
+                if (compId) {
+                    returnToBank(compId);
+                }
+            });
+
+            bank.addEventListener('click', () => {
+                if (isSubmitted) return;
+                if (selectedTapComponentId) {
+                    // Check if selected component is inside a zone and clicked bank to return
+                    const card = document.getElementById(selectedTapComponentId);
+                    if (card && card.parentElement !== bank) {
+                        returnToBank(selectedTapComponentId);
+                        clearTapSelection();
+                    }
+                }
+            });
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            if (!isSubmitted) {
+                this.classList.add('drag-over');
+            }
+        }
+
+        function handleDragLeave() {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDropOnTarget(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            if (isSubmitted) return;
+
+            const compId = e.dataTransfer.getData('text/plain') || draggedComponentId;
+            if (compId) {
+                placeComponentInZone(compId, this);
+            }
+        }
+
+        // Place component card into a specific drop zone
+        function placeComponentInZone(compId, zone) {
+            const card = document.getElementById(compId);
+            if (!card) return;
+
+            // If target already has a card, return existing card back to bank
+            const existingCard = zone.querySelector('.draggable-card');
+            if (existingCard && existingCard.id !== compId) {
+                returnToBank(existingCard.id);
+            }
+
+            // Move card to new target
+            zone.appendChild(card);
+            zone.classList.add('bg-white');
+            zone.classList.remove('bg-slate-50');
+
+            updateBankCounter();
+        }
+
+        // Return a component card to the top bank
+        function returnToBank(compId) {
+            const card = document.getElementById(compId);
+            const bank = document.getElementById('component-bank');
+            if (card && bank) {
+                bank.appendChild(card);
+                updateBankCounter();
+            }
+        }
+
+        function updateBankCounter() {
+            const bank = document.getElementById('component-bank');
+            const remaining = bank.querySelectorAll('.draggable-card').length;
+            const counter = document.getElementById('bank-count');
+            if (counter) {
+                counter.innerText = `${remaining} remaining`;
+            }
+        }
+
+        function setupAudioSynthesis() {
+            const audioBoxes = document.querySelectorAll('.yellow-audio-box');
+
+            if (!('speechSynthesis' in window)) {
+                console.warn('Speech Synthesis is not supported in this browser.');
+                return;
+            }
+
+            audioBoxes.forEach(box => {
+                box.addEventListener('click', () => {
+                    let text = box.getAttribute('data-audio-text');
+                    playSpeech(text, box);
+                });
+            });
+        }
+
+        function playSpeech(text, boxElement) {
+            // Stop any currently running speech
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                if (activeAudioElement) {
+                    activeAudioElement.classList.remove('speaking');
+                }
+                
+                // If user clicked the same box while playing, stop speech
+                if (activeAudioElement === boxElement) {
+                    activeAudioElement = null;
+                    return;
+                }
+            }
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.70; // Slower, clear reading speed
+            utterance.pitch = 1.25; // Adjusted higher pitch for a young female voice
+            utterance.lang = 'en-US';
+
+            // Ensure exact same consistent voice across Opening, Body, and Closing
+            const singleVoice = getConsistentVoice();
+            if (singleVoice) {
+                utterance.voice = singleVoice;
+            }
+
+            utterance.onstart = () => {
+                activeAudioElement = boxElement;
+                boxElement.classList.add('speaking');
+            };
+
+            utterance.onend = () => {
+                boxElement.classList.remove('speaking');
+                activeAudioElement = null;
+            };
+
+            utterance.onerror = () => {
+                boxElement.classList.remove('speaking');
+                activeAudioElement = null;
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function setupActionButtons() {
+            const btnSubmit = document.getElementById('btn-submit');
+            const btnRetry = document.getElementById('btn-retry');
+
+            btnSubmit.addEventListener('click', evaluateSubmission);
+            btnRetry.addEventListener('click', resetActivity);
+        }
+
+        function evaluateSubmission() {
+            if (isSubmitted) return;
+
+            // Stop any playing audio
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+            }
+
+            clearTapSelection();
+
+            let correctCount = 0;
+            const dropZones = document.querySelectorAll('.drop-zone');
+
+            dropZones.forEach(zone => {
+                const targetId = zone.getAttribute('data-target-id');
+                const correctCompId = answerKey[targetId];
+                const card = zone.querySelector('.draggable-card');
+                const revealContainer = zone.nextElementSibling; // div.correct-answer-reveal
+
+                // Default styles clear
+                zone.classList.remove('border-slate-300', 'border-emerald-500', 'border-rose-500', 'bg-emerald-50', 'bg-rose-50');
+
+                if (card) {
+                    const userCompId = card.getAttribute('data-id');
+                    if (userCompId === correctCompId) {
+                        correctCount++;
+                        zone.classList.add('border-emerald-500', 'bg-emerald-50');
+                        card.classList.add('border-emerald-500', 'bg-emerald-100', 'text-emerald-900');
+                        card.classList.remove('bg-white', 'border-slate-300');
+                        
+                        // Checkmark indicator
+                        if (!card.querySelector('.check-icon')) {
+                            const icon = document.createElement('i');
+                            icon.className = 'fa-solid fa-circle-check text-emerald-600 text-lg ml-2 check-icon';
+                            card.appendChild(icon);
+                        }
+                    } else {
+                        zone.classList.add('border-rose-500', 'bg-rose-50');
+                        card.classList.add('border-rose-500', 'bg-rose-100', 'text-rose-900');
+                        card.classList.remove('bg-white', 'border-slate-300');
+
+                        // Cross indicator
+                        if (!card.querySelector('.cross-icon')) {
+                            const icon = document.createElement('i');
+                            icon.className = 'fa-solid fa-circle-xmark text-rose-600 text-lg ml-2 cross-icon';
+                            card.appendChild(icon);
+                        }
+
+                        // Reveal correct answer only for wrong attempts
+                        const correctObj = componentsData.find(c => c.id === correctCompId);
+                        if (correctObj && revealContainer) {
+                            revealContainer.innerHTML = `<span class="font-bold">Correct answer:</span> ${correctObj.text}`;
+                            revealContainer.classList.remove('hidden');
+                        }
+                    }
+                } else {
+                    // Blank left unattempted - do NOT reveal the answer
+                    zone.classList.add('border-slate-300');
+                    if (revealContainer) {
+                        revealContainer.innerHTML = '';
+                        revealContainer.classList.add('hidden');
+                    }
+                }
+
+                // Disable dragging after submit
+                if (card) {
+                    card.setAttribute('draggable', 'false');
+                    card.classList.remove('cursor-grab');
+                    card.classList.add('cursor-default');
+                }
+            });
+
+            isSubmitted = true;
+        }
+
+        function resetActivity() {
+            // Stop speech if active
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+            }
+            if (activeAudioElement) {
+                activeAudioElement.classList.remove('speaking');
+                activeAudioElement = null;
+            }
+
+            isSubmitted = false;
+            clearTapSelection();
+
+            // Reset all drop zones
+            const dropZones = document.querySelectorAll('.drop-zone');
+            dropZones.forEach(zone => {
+                zone.innerHTML = '';
+                zone.className = 'drop-zone p-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 flex flex-col justify-center items-center min-h-[80px]';
+                
+                const revealContainer = zone.nextElementSibling;
+                if (revealContainer) {
+                    revealContainer.innerHTML = '';
+                    revealContainer.classList.add('hidden');
+                }
+            });
+
+            // Re-initialize component bank
+            initComponentBank();
+        }
+    </script>
+</body>
+</html>
