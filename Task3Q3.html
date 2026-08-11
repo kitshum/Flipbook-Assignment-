@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disney Summer Event - Tasks Layout</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            max-width: 750px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .instruction-text {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .task-item {
+            background-color: #fffdfb;
+            border: 1px solid #f3dcd0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .task-item:last-child {
+            margin-bottom: 0;
+        }
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 16px;
+        }
+        .subject-noun {
+            font-weight: 600;
+            color: #333;
+        }
+        input[type="text"] {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-size: 15px;
+            flex: 1;
+            min-width: 220px;
+            transition: all 0.3s;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #ECA873;
+            box-shadow: 0 0 5px rgba(236, 168, 115, 0.5);
+        }
+        input.correct {
+            border-color: #2ecc71;
+            background-color: #e8f8f0;
+        }
+        input.incorrect {
+            border-color: #e74c3c;
+            background-color: #fdeaea;
+        }
+        .actions-wrapper {
+            display: flex;
+            gap: 5px;
+        }
+        button {
+            border: none;
+            padding: 6px 14px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-check {
+            background-color: #ECA873;
+            color: white;
+        }
+        .btn-check:hover {
+            background-color: #d9935f;
+        }
+        .btn-hint {
+            background-color: #7f8c8d;
+            color: white;
+        }
+        .btn-hint:hover {
+            background-color: #616a6b;
+        }
+        .feedback-area {
+            margin-top: 10px;
+            font-size: 14px;
+            display: none;
+            line-height: 1.4;
+        }
+        .error-msg {
+            color: #e74c3c;
+        }
+        .success-msg {
+            color: #2ecc71;
+        }
+        .hint-msg {
+            color: #2980b9;
+            background-color: #eaf2f8;
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 6px;
+            font-style: italic;
+        }
+        .full-sentence-preview {
+            font-weight: 600;
+            color: #444;
+            background-color: #f5f5f5;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="instruction-text">Please enter your answers below.</div>
+    
+    <div class="task-item">
+        <div class="input-row">
+            <span class="subject-noun">The target participants</span>
+            <input type="text" id="blank1">
+            <div class="actions-wrapper">
+                <button class="btn-check" onclick="validateField(1)">Check</button>
+                <button class="btn-hint" onclick="toggleHint(1)">Possible Response</button>
+            </div>
+        </div>
+        <div id="feedback1" class="feedback-area"></div>
+        <div id="hint1" class="feedback-area hint-msg">Possible response: "are families with children." or "are mainly families with children."</div>
+    </div>
+
+    <div class="task-item">
+        <div class="input-row">
+            <span class="subject-noun">There will be</span>
+            <input type="text" id="blank2">
+            <div class="actions-wrapper">
+                <button class="btn-check" onclick="validateField(2)">Check</button>
+                <button class="btn-hint" onclick="toggleHint(2)">Possible Response</button>
+            </div>
+        </div>
+        <div id="feedback2" class="feedback-area"></div>
+        <div id="hint2" class="feedback-area hint-msg">Possible response: "wonderful fireworks and live music shows." or "fireworks and live music shows."</div>
+    </div>
+
+    <div class="task-item">
+        <div class="input-row">
+            <span class="subject-noun">Also, you can</span>
+            <input type="text" id="blank3">
+            <div class="actions-wrapper">
+                <button class="btn-check" onclick="validateField(3)">Check</button>
+                <button class="btn-hint" onclick="toggleHint(3)">Possible Response</button>
+            </div>
+        </div>
+        <div id="feedback3" class="feedback-area"></div>
+        <div id="hint3" class="feedback-area hint-msg">Possible response: "enjoy a summer parade with the Disney characters." or "watch a summer parade with Disney characters."</div>
+    </div>
+
+    <div class="task-item">
+        <div class="input-row">
+            <span class="subject-noun">The ticket fee</span>
+            <input type="text" id="blank4">
+            <div class="actions-wrapper">
+                <button class="btn-check" onclick="validateField(4)">Check</button>
+                <button class="btn-hint" onclick="toggleHint(4)">Possible Response</button>
+            </div>
+        </div>
+        <div id="feedback4" class="feedback-area"></div>
+        <div id="hint4" class="feedback-area hint-msg">Possible response: "is $620 per adult and $450 per child." or "costs $620 for each adult and $450 for each child."</div>
+    </div>
+
+</div>
+
+<script>
+function validateField(num) {
+    const inputEl = document.getElementById(`blank${num}`);
+    const feedbackEl = document.getElementById(`feedback${num}`);
+    const userInput = inputEl.value.trim().replace(/\s+/g, ' ');
+    
+    // Define subjects corresponding to each item
+    const subjects = {
+        1: "The target participants",
+        2: "There will be",
+        3: "Also, you can",
+        4: "The ticket fee"
+    };
+
+    const subject = subjects[num];
+    feedbackEl.style.display = 'block';
+    feedbackEl.innerHTML = '';
+
+    if (!userInput) {
+        inputEl.className = 'incorrect';
+        feedbackEl.innerHTML = `<span class="error-msg">⚠️ Field cannot be empty. Please enter text to complete the sentence.</span>`;
+        return;
+    }
+
+    let isCorrect = true;
+    let errorLog = [];
+
+    // Combine subject and user input into whole sentence
+    const fullSentence = `${subject} ${userInput}`;
+
+    const words = userInput.split(' ');
+    if (words.length < 2) {
+        errorLog.push("Sentence structure incomplete: Provide a complete predicate with necessary details.");
+        isCorrect = false;
+    }
+
+    // Check for duplicated subject at the start of input
+    const cleanSubject = subject.replace(/^[A-Za-z]+,\s*/, ''); // strip "Also, " if present
+    const subjectRegex = new RegExp(`^${cleanSubject}\\b`, 'i');
+    if (subjectRegex.test(userInput)) {
+        errorLog.push(`Redundant subject: Avoid repeating "${cleanSubject}" inside the text box.`);
+        isCorrect = false;
+    }
+
+    // Check for leading punctuation
+    if (/^[.,;:?!]/.test(userInput)) {
+        errorLog.push("Punctuation error: Do not start your entry with punctuation marks.");
+        isCorrect = false;
+    }
+
+    // Check for dangling prepositions/conjunctions/articles at the end
+    if (/\b(for|in|on|at|to|with|from|of|by|about|and|or|a|an|the)\b\.?$/i.test(userInput)) {
+        errorLog.push("Incomplete sentence meaning: Sentence ends with an incomplete connector. Please finish your thought.");
+        isCorrect = false;
+    }
+
+    if (num === 1) {
+        // Subject: "The target participants..."
+        // Expected meaning: are families with children
+        if (/\b(participents|participents|childern|familes|familys)\b/i.test(userInput)) {
+            errorLog.push("Spelling error: Check the spelling of 'participants', 'families', or 'children'.");
+            isCorrect = false;
+        }
+
+        if (/\b(pets|dogs|cats|animals)\b/i.test(userInput)) {
+            errorLog.push("Context error: The target participants are families with children, not pets or animals.");
+            isCorrect = false;
+        }
+
+        if (/(620|450|\$620|\$450|fee|price)/i.test(userInput)) {
+            errorLog.push("Semantic mismatch: 'The target participants' describes who attends the event, not the ticket prices.");
+            isCorrect = false;
+        }
+
+        // Subject-verb agreement (Plural subject: "participants")
+        if (/^\s*(is|was)\b/i.test(userInput)) {
+            errorLog.push("Subject-verb agreement error: 'The target participants' is a plural subject and requires 'are' (not 'is').");
+            isCorrect = false;
+        } else if (!/\b(are|include|consist of|will be|can be|comprise|include)\b/i.test(userInput)) {
+            errorLog.push("Missing predicate verb: State what action or state applies to the participants (e.g., 'are...', 'include...').");
+            isCorrect = false;
+        }
+
+        // Meaning alignment check
+        const hasFamilyConcept = /\b(family|families)\b/i.test(fullSentence);
+        const hasChildConcept = /\b(children|child|kids|kid)\b/i.test(fullSentence);
+
+        if (!hasFamilyConcept || !hasChildConcept) {
+            errorLog.push("Meaning mismatch: The sentence should express that the target participants are families with children.");
+            isCorrect = false;
+        }
+    } 
+    else if (num === 2) {
+        // Subject: "There will be..."
+        // Expected meaning: wonderful fireworks and live music shows
+        if (/\b(fireworkes|fireworkss|musics|wonderfull|wonderfull)\b/i.test(userInput)) {
+            errorLog.push("Spelling error: Double-check words like 'fireworks', 'wonderful', or 'music'.");
+            isCorrect = false;
+        }
+
+        if (/(620|450|\$620|\$450|fee|price)/i.test(userInput)) {
+            errorLog.push("Semantic mismatch: Describe the event attractions here, not the ticket prices.");
+            isCorrect = false;
+        }
+
+        // Structure check after "There will be"
+        if (/^\s*(is|are|shows|has|costs)\b/i.test(userInput)) {
+            errorLog.push("Grammar structure error: 'There will be' must be followed directly by noun phrases (attractions), not another verb.");
+            isCorrect = false;
+        }
+
+        // Meaning alignment check
+        const hasFireworks = /\b(firework|fireworks)\b/i.test(fullSentence);
+        const hasMusicOrShows = /\b(music|shows|show|performances|live music)\b/i.test(fullSentence);
+
+        if (!hasFireworks) {
+            errorLog.push("Meaning incomplete: Specify the fireworks attraction.");
+            isCorrect = false;
+        }
+        if (!hasMusicOrShows) {
+            errorLog.push("Meaning incomplete: Specify the live music or shows.");
+            isCorrect = false;
+        }
+    } 
+    else if (num === 3) {
+        // Subject: "Also, you can..."
+        // Expected meaning: enjoy a summer parade with the Disney characters
+        if (/\b(parad|paradd|charecter|charecters|dissney|sumer)\b/i.test(userInput)) {
+            errorLog.push("Spelling error: Check spelling of 'parade', 'characters', 'Disney', or 'summer'.");
+            isCorrect = false;
+        }
+
+        // Grammar check: Base verb required after modal "can"
+        if (/^\s*(enjoys|enjoyed|watching|watches|saw)\b/i.test(userInput)) {
+            errorLog.push("Grammar error: Use a base verb after 'can' (e.g., 'enjoy', 'watch', 'see', 'join').");
+            isCorrect = false;
+        } else if (!/^\s*(enjoy|watch|see|join|experience|take part in|participate in|meet)\b/i.test(userInput)) {
+            errorLog.push("Missing action verb: Specify the action after 'can' (e.g., 'enjoy...', 'watch...').");
+            isCorrect = false;
+        }
+
+        // Meaning alignment check
+        const hasParade = /\b(parade|summer parade)\b/i.test(fullSentence);
+        const hasDisney = /\b(disney|character|characters)\b/i.test(fullSentence);
+
+        if (!hasParade) {
+            errorLog.push("Meaning mismatch: Mention the summer parade activity.");
+            isCorrect = false;
+        }
+        if (!hasDisney) {
+            errorLog.push("Meaning mismatch: Mention the Disney characters.");
+            isCorrect = false;
+        }
+    } 
+    else if (num === 4) {
+        // Subject: "The ticket fee..."
+        // Expected meaning: is $620 per adult and $450 per child
+        if (/\b(tikit|tickit|adulte|childs|priss)\b/i.test(userInput)) {
+            errorLog.push("Spelling error: Check spelling of 'ticket', 'adult', 'child', or 'per'.");
+            isCorrect = false;
+        }
+
+        // Grammar & Verb Agreement
+        if (/\b(cost|charge)\b/i.test(userInput) && !/\b(costs|charges|is|comes)\b/i.test(userInput)) {
+            errorLog.push("Subject-verb agreement error: 'The ticket fee' is singular, so use 'is' or 'costs' (instead of 'cost').");
+            isCorrect = false;
+        } else if (!/\b(is|costs|charges|comes to|will be|equals)\b/i.test(userInput)) {
+            errorLog.push("Missing verb: Use a cost or linking verb like 'is' or 'costs'.");
+            isCorrect = false;
+        }
+
+        // Meaning alignment check (Prices: $620 per adult, $450 per child)
+        const has620 = /(620|\$620)/.test(fullSentence);
+        const has450 = /(450|\$450)/.test(fullSentence);
+        const hasAdult = /\b(adult|adults)\b/i.test(fullSentence);
+        const hasChild = /\b(child|children|kid|kids)\b/i.test(fullSentence);
+
+        if (!has620 || !hasAdult) {
+            errorLog.push("Meaning incomplete: State the adult fee details ($620 per adult).");
+            isCorrect = false;
+        }
+        if (!has450 || !hasChild) {
+            errorLog.push("Meaning incomplete: State the child fee details ($450 per child).");
+            isCorrect = false;
+        }
+    }
+
+    const formattedSentence = fullSentence.endsWith('.') ? fullSentence : fullSentence + '.';
+
+    if (isCorrect) {
+        inputEl.className = 'correct';
+        feedbackEl.innerHTML = `
+            <div class="full-sentence-preview">Evaluated Sentence: "${formattedSentence}"</div><br>
+            <span class="success-msg">🟢 Perfect! The complete sentence is grammatically correct and accurately reflects the event information.</span>
+        `;
+    } else {
+        inputEl.className = 'incorrect';
+        feedbackEl.innerHTML = `
+            <div class="full-sentence-preview">Evaluated Sentence: "${formattedSentence}"</div><br>
+            <span class="error-msg">🔴 <strong>Sentence Check & Meaning Errors:</strong><br>• ${errorLog.join('<br>• ')}</span>
+        `;
+    }
+}
+
+function toggleHint(num) {
+    const hintEl = document.getElementById(`hint${num}`);
+    if (hintEl.style.display === 'block') {
+        hintEl.style.display = 'none';
+    } else {
+        hintEl.style.display = 'block';
+    }
+}
+</script>
+</body>
+</html>

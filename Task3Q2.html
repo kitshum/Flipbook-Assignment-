@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Pet Spa - Tasks Layout</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            max-width: 750px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        /* Exercise Section Styles */
+        .instruction-text {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .task-item {
+            background-color: #fffdfb;
+            border: 1px solid #f3dcd0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .task-item:last-child {
+            margin-bottom: 0;
+        }
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 16px;
+        }
+        .subject-noun {
+            font-weight: 600;
+            color: #333;
+        }
+        input[type="text"] {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-size: 15px;
+            flex: 1;
+            min-width: 220px;
+            transition: all 0.3s;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #ECA873;
+            box-shadow: 0 0 5px rgba(236, 168, 115, 0.5);
+        }
+        input.correct {
+            border-color: #2ecc71;
+            background-color: #e8f8f0;
+        }
+        input.incorrect {
+            border-color: #e74c3c;
+            background-color: #fdeaea;
+        }
+        .actions-wrapper {
+            display: flex;
+            gap: 5px;
+        }
+        button {
+            border: none;
+            padding: 6px 14px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-check {
+            background-color: #ECA873;
+            color: white;
+        }
+        .btn-check:hover {
+            background-color: #d9935f;
+        }
+        .btn-hint {
+            background-color: #7f8c8d;
+            color: white;
+        }
+        .btn-hint:hover {
+            background-color: #616a6b;
+        }
+        .feedback-area {
+            margin-top: 10px;
+            font-size: 14px;
+            display: none;
+            line-height: 1.4;
+        }
+        .error-msg {
+            color: #e74c3c;
+        }
+        .success-msg {
+            color: #2ecc71;
+        }
+        .hint-msg {
+            color: #2980b9;
+            background-color: #eaf2f8;
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 6px;
+            font-style: italic;
+        }
+        .full-sentence-preview {
+            font-weight: 600;
+            color: #444;
+            background-color: #f5f5f5;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="instruction-text">Please enter your answers below.</div>
+    
+    <div class="task-item">
+        <div class="input-row">
+            <span class="subject-noun">This service</span>
+            <input type="text" id="blank1">
+            <div class="actions-wrapper">
+                <button class="btn-check" onclick="validateField(1)">Check</button>
+                <button class="btn-hint" onclick="toggleHint(1)">Possible Response</button>
+            </div>
+        </div>
+        <div id="feedback1" class="feedback-area"></div>
+        <div id="hint1" class="feedback-area hint-msg">Possible response: "offers professional spa treatments for pets." or "provides professional spa treatments."</div>
+    </div>
+
+    <div class="task-item">
+        <div class="input-row">
+            <span class="subject-noun">Your pet</span>
+            <input type="text" id="blank2">
+            <div class="actions-wrapper">
+                <button class="btn-check" onclick="validateField(2)">Check</button>
+                <button class="btn-hint" onclick="toggleHint(2)">Possible Response</button>
+            </div>
+        </div>
+        <div id="feedback2" class="feedback-area"></div>
+        <div id="hint2" class="feedback-area hint-msg">Possible response: "can enjoy a relaxing environment." or "will feel relaxed in our spa."</div>
+    </div>
+
+    <div class="task-item">
+        <div class="input-row">
+            <span class="subject-noun">There are</span>
+            <input type="text" id="blank3">
+            <div class="actions-wrapper">
+                <button class="btn-check" onclick="validateField(3)">Check</button>
+                <button class="btn-hint" onclick="toggleHint(3)">Possible Response</button>
+            </div>
+        </div>
+        <div id="feedback3" class="feedback-area"></div>
+        <div id="hint3" class="feedback-area hint-msg">Possible response: "different packages available for your pet." or "various spa packages to choose from."</div>
+    </div>
+
+    <div class="task-item">
+        <div class="input-row">
+            <span class="subject-noun">The fee</span>
+            <input type="text" id="blank4">
+            <div class="actions-wrapper">
+                <button class="btn-check" onclick="validateField(4)">Check</button>
+                <button class="btn-hint" onclick="toggleHint(4)">Possible Response</button>
+            </div>
+        </div>
+        <div id="feedback4" class="feedback-area"></div>
+        <div id="hint4" class="feedback-area hint-msg">Possible response: "is $580 per session." or "costs $580 for each session."</div>
+    </div>
+
+</div>
+
+<script>
+function validateField(num) {
+    const inputEl = document.getElementById(`blank${num}`);
+    const feedbackEl = document.getElementById(`feedback${num}`);
+    const userInput = inputEl.value.trim().replace(/\s+/g, ' ');
+    
+    // Define subjects corresponding to each item
+    const subjects = {
+        1: "This service",
+        2: "Your pet",
+        3: "There are",
+        4: "The fee"
+    };
+
+    const subject = subjects[num];
+    feedbackEl.style.display = 'block';
+    feedbackEl.innerHTML = '';
+
+    // 1. Check for empty input
+    if (!userInput) {
+        inputEl.className = 'incorrect';
+        feedbackEl.innerHTML = `<span class="error-msg">⚠️ Field cannot be empty. Please enter text to complete the sentence.</span>`;
+        return;
+    }
+
+    let isCorrect = true;
+    let errorLog = [];
+
+    // Combine subject and user input into whole sentence
+    const fullSentence = `${subject} ${userInput}`;
+
+    // 2. Structural & Word Count Checks
+    const words = userInput.split(' ');
+    if (words.length < 2) {
+        errorLog.push("Sentence structure incomplete: Provide a complete predicate with necessary details.");
+        isCorrect = false;
+    }
+
+    // Check for duplicated subject at the start of input
+    const subjectRegex = new RegExp(`^${subject}\\b`, 'i');
+    if (subjectRegex.test(userInput)) {
+        errorLog.push(`Redundant subject: Avoid repeating "${subject}" inside the text box.`);
+        isCorrect = false;
+    }
+
+    // Check for leading punctuation
+    if (/^[.,;:?!]/.test(userInput)) {
+        errorLog.push("Punctuation error: Do not start your entry with punctuation marks.");
+        isCorrect = false;
+    }
+
+    // Check for dangling prepositions/conjunctions/articles at the end
+    if (/\b(for|in|on|at|to|with|from|of|by|about|and|or|a|an|the)\b\.?$/i.test(userInput)) {
+        errorLog.push("Incomplete sentence meaning: Sentence ends with an incomplete connector. Please finish your thought.");
+        isCorrect = false;
+    }
+
+    // 3. Task-Specific Structure and Semantic Meaning Checks
+    if (num === 1) {
+        // Subject: "This service..."
+        if (/\b(profesional|proffessional|tratment|tratments|spas)\b/i.test(userInput)) {
+            errorLog.push("Spelling error: Check the spelling of 'professional' or 'treatments'.");
+            isCorrect = false;
+        }
+
+        if (/\b(kids|children|human|humans|people|adults|babies)\b/i.test(userInput)) {
+            errorLog.push("Target audience error: Happy Pet Spa offers treatments for pets, not kids or humans.");
+            isCorrect = false;
+        }
+
+        if (/(580|\$580|cost|price|fee)/i.test(userInput)) {
+            errorLog.push("Semantic mismatch: 'This service' should describe what care or treatment is offered, not the price fee.");
+            isCorrect = false;
+        }
+        if (/\b(can choose|selects|enjoys|can enjoy)\b/i.test(userInput)) {
+            errorLog.push("Illogical meaning: 'This service' is provided by the spa, so it cannot 'choose' or 'enjoy' packages itself.");
+            isCorrect = false;
+        }
+
+        if (/\b(offer|provide|give|feature|include)\b/i.test(userInput) && !/\b(offers|provides|gives|features|includes|can offer|can provide|is offering)\b/i.test(userInput)) {
+            errorLog.push("Subject-verb agreement error: 'This service' is singular and requires a singular verb form (e.g., 'offers' or 'provides').");
+            isCorrect = false;
+        } else if (!/\b(offers|provides|gives|is|features|includes|has|presents|delivers)\b/i.test(userInput)) {
+            errorLog.push("Missing predicate verb: State what action the service performs (e.g., 'offers...', 'provides...').");
+            isCorrect = false;
+        }
+
+        const hasTreatmentConcept = /(professional|spa|treatment|treatments|care|grooming)/i.test(fullSentence);
+        const hasSpaOrTreatment = /(spa|treatment|treatments)/i.test(fullSentence);
+        if (!hasSpaOrTreatment || !hasTreatmentConcept) {
+            errorLog.push("Meaning mismatch: The sentence should express that the service offers or provides professional spa treatments for pets.");
+            isCorrect = false;
+        }
+    } 
+    else if (num === 2) {
+        // Subject: "Your pet..."
+        // Expected meaning tally: can enjoy a relaxing environment / will feel relaxed in our spa
+        if (/\b(relaxin|enviroment|comfortabel|peacefull|feele)\b/i.test(userInput)) {
+            errorLog.push("Spelling error: Double-check words like 'relaxing', 'environment', or 'comfortable'.");
+            isCorrect = false;
+        }
+
+        // Target audience / entity check
+        if (/\b(kids|children|human|humans|people|adults|babies)\b/i.test(userInput)) {
+            errorLog.push("Target audience error: Services and environment are for pets, not kids or humans.");
+            isCorrect = false;
+        }
+
+        // Illogical context checks
+        if (/(580|\$580|cost|price|fee)/i.test(userInput)) {
+            errorLog.push("Semantic mismatch: 'Your pet' is not a monetary fee.");
+            isCorrect = false;
+        }
+        if (/\b(offers|provides|features|includes|presents)\b/i.test(userInput)) {
+            errorLog.push("Illogical meaning: 'Your pet' is the client enjoying care, not the spa business offering services.");
+            isCorrect = false;
+        }
+
+        // Grammar & Verb Agreement
+        if (/\b(relax|feel|enjoy)\b/i.test(userInput) && !/\b(can relax|relaxes|feels|will feel|can enjoy|enjoys|is|will be|can feel)\b/i.test(userInput)) {
+            errorLog.push("Grammar error: 'Your pet' is singular. Use modal verbs or singular verb forms (e.g., 'can enjoy', 'will feel', or 'relaxes').");
+            isCorrect = false;
+        } else if (!/\b(can relax|relaxes|feels|will feel|can enjoy|enjoys|is|will be|can feel|gets|experiences)\b/i.test(userInput)) {
+            errorLog.push("Missing verb phrase: Express what action or state your pet experiences (e.g., 'can enjoy...', 'will feel...').");
+            isCorrect = false;
+        }
+
+        // Meaning alignment with Possible Response ("can enjoy a relaxing environment" / "will feel relaxed in our spa")
+        const hasRelaxingConcept = /\b(relaxing|relaxed|relax|soothing|calm|peaceful|comfortable|comfort)\b/i.test(fullSentence);
+        const hasSettingConcept = /\b(environment|setting|spa|atmosphere|surroundings|care)\b/i.test(fullSentence);
+
+        if (!hasRelaxingConcept) {
+            errorLog.push("Meaning mismatch: Specify that your pet can relax or feel comfortable.");
+            isCorrect = false;
+        }
+        if (!hasSettingConcept) {
+            errorLog.push("Meaning mismatch: Mention the environment, atmosphere, or spa setting.");
+            isCorrect = false;
+        }
+    } 
+    else if (num === 3) {
+        // Subject: "There are..."
+        // Expected meaning tally: different packages available for your pet / various spa packages to choose from
+        if (/\b(packege|packges|varios|availble|choos)\b/i.test(userInput)) {
+            errorLog.push("Spelling error: Check spelling of 'packages', 'various', 'available', or 'choose'.");
+            isCorrect = false;
+        }
+
+        // Target audience / entity check
+        if (/\b(kids|children|human|humans|people|adults|babies)\b/i.test(userInput)) {
+            errorLog.push("Target audience error: Happy Pet Spa packages are for pets, not kids or humans.");
+            isCorrect = false;
+        }
+
+        // Illogical context checks
+        if (/(580|\$580|cost|price|fee)/i.test(userInput)) {
+            errorLog.push("Semantic mismatch: Describe the packages or choices available, not the fee value here.");
+            isCorrect = false;
+        }
+
+        // Plural Noun Agreement after "There are"
+        if (/\b(a package|one package|a treatment|a service|a choice)\b/i.test(userInput)) {
+            errorLog.push("Subject-verb agreement error: 'There are' requires a plural noun phrase (e.g., 'different packages' or 'various options').");
+            isCorrect = false;
+        } else if (/^\s*(offers|provides|is|costs|charges|can)\b/i.test(userInput)) {
+            errorLog.push("Grammar structure error: 'There are' must be followed by a plural noun phrase, not directly by a main verb.");
+            isCorrect = false;
+        }
+
+        // Meaning alignment with Possible Response ("different packages available for your pet" / "various spa packages to choose from")
+        const hasPackageConcept = /\b(package|packages|options|treatments|choices|services)\b/i.test(fullSentence);
+        const hasVarietyConcept = /\b(different|various|several|many|available|to choose from|spa packages)\b/i.test(fullSentence);
+
+        if (!hasPackageConcept) {
+            errorLog.push("Meaning mismatch: Mention the packages, treatments, or options available.");
+            isCorrect = false;
+        }
+        if (!hasVarietyConcept) {
+            errorLog.push("Meaning mismatch: Specify that there are 'different', 'various', or 'available' packages/options.");
+            isCorrect = false;
+        }
+    } 
+    else if (num === 4) {
+        // Subject: "The fee..."
+        // Expected meaning tally: is $580 per session / costs $580 for each session
+        if (/\b(sestion|sesion|costing|chargeing)\b/i.test(userInput)) {
+            errorLog.push("Spelling error: Check spelling of 'session' or 'costing'.");
+            isCorrect = false;
+        }
+
+        // Illogical context checks
+        if (/\b(relaxing|comfortable|peaceful|soothing)\b/i.test(userInput)) {
+            errorLog.push("Illogical meaning: A fee is a financial cost, not a relaxing atmosphere.");
+            isCorrect = false;
+        }
+        if (/\b(can choose|enjoys|can enjoy|selects)\b/i.test(userInput)) {
+            errorLog.push("Illogical meaning: 'The fee' cannot make choices or enjoy spa packages.");
+            isCorrect = false;
+        }
+
+        // Grammar & Verb Agreement
+        if (/\b(cost|charge)\b/i.test(userInput) && !/\b(costs|charges|is|comes)\b/i.test(userInput)) {
+            errorLog.push("Subject-verb agreement error: 'The fee' is singular, so use 'is' or 'costs' (instead of 'cost').");
+            isCorrect = false;
+        } else if (!/\b(is|costs|charges|comes to|will be|equals)\b/i.test(userInput)) {
+            errorLog.push("Missing verb: Use a cost or linking verb like 'is' or 'costs'.");
+            isCorrect = false;
+        }
+
+        // Meaning alignment with Possible Response ("is $580 per session" / "costs $580 for each session")
+        const hasPrice = /(580|\$580|five hundred eighty)/i.test(fullSentence);
+        const hasSession = /\b(session|sessions|per session|each session)\b/i.test(fullSentence);
+
+        if (!hasPrice) {
+            errorLog.push("Meaning incomplete: Specify the cost detail (e.g., '$580').");
+            isCorrect = false;
+        }
+        if (!hasSession) {
+            errorLog.push("Meaning incomplete: Specify the session unit (e.g., 'per session' or 'for each session').");
+            isCorrect = false;
+        }
+    }
+
+    // Format full sentence for display
+    const formattedSentence = fullSentence.endsWith('.') ? fullSentence : fullSentence + '.';
+
+    if (isCorrect) {
+        inputEl.className = 'correct';
+        feedbackEl.innerHTML = `
+            <div class="full-sentence-preview">Evaluated Sentence: "${formattedSentence}"</div><br>
+            <span class="success-msg">🟢 Perfect! The complete sentence is grammatically correct and makes logical, clear sense in this context.</span>
+        `;
+    } else {
+        inputEl.className = 'incorrect';
+        feedbackEl.innerHTML = `
+            <div class="full-sentence-preview">Evaluated Sentence: "${formattedSentence}"</div><br>
+            <span class="error-msg">🔴 <strong>Sentence Check & Meaning Errors:</strong><br>• ${errorLog.join('<br>• ')}</span>
+        `;
+    }
+}
+
+function toggleHint(num) {
+    const hintEl = document.getElementById(`hint${num}`);
+    if (hintEl.style.display === 'block') {
+        hintEl.style.display = 'none';
+    } else {
+        hintEl.style.display = 'block';
+    }
+}
+</script>
+</body>
+</html>
