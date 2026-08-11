@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yummy Bakery - Hotline Speaking Practice</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+        }
+        
+        /* Word Spacing and Pronunciation Highlighting */
+        .passage-word {
+            word-spacing: 0.18em;
+            letter-spacing: 0.015em;
+            display: inline-block;
+            margin: 2px 1px;
+            padding: 2px 5px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .word-pending {
+            background-color: transparent;
+            color: #334155;
+        }
+
+        .word-correct {
+            background-color: #d1fae5;
+            color: #065f46;
+            font-weight: 600;
+            border: 1px solid #a7f3d0;
+        }
+
+        .word-incorrect {
+            background-color: #fee2e2;
+            color: #991b1b;
+            font-weight: 600;
+            border: 1px solid #fca5a5;
+            text-decoration: underline decoration-red-400;
+        }
+
+        /* Active Text-To-Speech Reading Highlight */
+        .word-tts-active {
+            background-color: #2563eb !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            border-color: #1d4ed8 !important;
+            box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
+            transform: scale(1.08);
+        }
+
+        .pulse-animation {
+            animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.03); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col justify-between p-4 md:p-6">
+
+    <!-- Main Content Area -->
+    <main class="max-w-6xl mx-auto w-full flex-grow grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Left Column: Full Passage Mode (7 cols) -->
+        <section class="lg:col-span-7 flex flex-col space-y-4">
+            
+            <!-- Passage Header & Audio Controls Bar -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-indigo-100 text-indigo-600 w-10 h-10 rounded-xl flex items-center justify-center font-extrabold text-xl shadow-sm">
+                        🐶
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-slate-800 text-base leading-tight">Pet Kingdom Speaking Practice</h1>
+                        <p class="text-xs text-slate-500 font-medium">Promotional Hotline Message – Happy Pet Spa</p>
+                    </div>
+                </div>
+
+                <!-- Text-to-Speech Audio Controls -->
+                <div class="flex items-center space-x-2">
+                    <button id="btn-tts-play" onclick="handleTTSToggle()" class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                        <i class="fa-solid fa-play" id="tts-play-icon"></i>
+                        <span id="tts-play-text">Listen to Model</span>
+                    </button>
+                    <button id="btn-tts-stop" onclick="stopModelAudio()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-2.5 py-1.5 rounded-xl text-xs font-bold transition hidden">
+                        <i class="fa-solid fa-stop"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Full Passage Reading Container -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex-grow flex flex-col justify-between">
+                <div>
+                    <!-- Mode Header & Color Legend -->
+                    <div class="flex flex-wrap items-center justify-between border-b border-slate-100 pb-3 mb-4 gap-2">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xl">📖</span>
+                            <h2 class="font-bold text-slate-800 text-sm uppercase tracking-wider">Full Passage Script</h2>
+                        </div>
+                        <span id="reading-status-badge" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-500">
+                            Ready
+                        </span>
+                    </div>
+
+                    <!-- Color Legend -->
+                    <div class="flex items-center gap-4 text-xs mb-5 pb-3 border-b border-slate-100 text-slate-600">
+                        <span class="font-bold text-slate-500">Legend:</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-emerald-100 border border-emerald-300"></span> Correct</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-rose-100 border border-rose-300"></span> Needs Practice</span>
+                    </div>
+
+                    <!-- Full Passage Paragraphs Injected Here -->
+                    <div id="full-passage-container" class="space-y-4 text-slate-800 text-base md:text-lg leading-relaxed">
+                        <!-- Paragraphs dynamically injected -->
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Right Column: Timer & Controls (Sticky on Scroll) -->
+        <section class="lg:col-span-5 flex flex-col space-y-4 lg:sticky lg:top-4 h-fit">
+            
+            <!-- Timer & Recorder Card -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col items-center text-center relative">
+                
+                <!-- 10 Seconds Remaining Visual Alert -->
+                <div id="alert-10s" class="hidden absolute -top-3 right-4 bg-rose-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg animate-bounce flex items-center gap-1.5 z-10">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>10 Seconds Left!</span>
+                </div>
+
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Timed Practice Control</h2>
+                
+                <!-- Digital Timer Display -->
+                <div class="my-3 relative flex items-center justify-center">
+                    <div id="timer-ring" class="w-40 h-40 rounded-full border-4 border-amber-100 flex flex-col items-center justify-center bg-gradient-to-b from-amber-50 to-orange-50 shadow-inner transition-all duration-300">
+                        <span id="timer-display" class="text-4xl font-extrabold text-slate-800 tracking-tight">02:00</span>
+                        <span id="timer-sublabel" class="text-[10px] font-semibold text-amber-600 uppercase tracking-widest mt-1">Remaining</span>
+                    </div>
+                </div>
+
+                <!-- Custom Minutes & Seconds Input -->
+                <div class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 mb-5">
+                    <label class="block text-xs font-bold text-slate-600 mb-2">Set Target Time:</label>
+                    <div class="flex items-center justify-center gap-2">
+                        <div class="flex flex-col items-center">
+                            <input type="number" id="input-mins" min="0" max="59" value="2" onchange="updateTimerFromInput()" class="w-16 text-center bg-white border border-slate-300 font-bold text-slate-800 rounded-lg p-1.5 text-sm focus:ring-2 focus:ring-amber-400 focus:outline-none">
+                            <span class="text-[10px] font-semibold text-slate-400 mt-0.5">MIN</span>
+                        </div>
+                        <span class="text-lg font-bold text-slate-400 mb-3">:</span>
+                        <div class="flex flex-col items-center">
+                            <input type="number" id="input-secs" min="0" max="59" value="0" onchange="updateTimerFromInput()" class="w-16 text-center bg-white border border-slate-300 font-bold text-slate-800 rounded-lg p-1.5 text-sm focus:ring-2 focus:ring-amber-400 focus:outline-none">
+                            <span class="text-[10px] font-semibold text-slate-400 mt-0.5">SEC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recording Action Controls -->
+                <div class="w-full flex flex-col gap-2.5">
+                    <div class="grid grid-cols-2 gap-2">
+                        <button id="btn-start-record" onclick="startRecording()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-2 rounded-xl shadow-md transition flex items-center justify-center space-x-1.5 text-xs sm:text-sm">
+                            <i class="fa-solid fa-microphone"></i>
+                            <span>Start</span>
+                        </button>
+                        <button id="btn-stop-record" onclick="stopRecording()" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-2 rounded-xl shadow-md transition flex items-center justify-center space-x-1.5 text-xs sm:text-sm opacity-50 cursor-not-allowed" disabled>
+                            <i class="fa-solid fa-square"></i>
+                            <span>Stop</span>
+                        </button>
+                    </div>
+
+                    <!-- Check Accuracy Button (Enabled ONLY after Stop is clicked) -->
+                    <button id="btn-check" onclick="checkAccuracy()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-xl shadow-sm transition flex items-center justify-center space-x-2 text-xs opacity-50 cursor-not-allowed" disabled>
+                        <i class="fa-solid fa-circle-check text-sm"></i>
+                        <span>Check Accuracy</span>
+                    </button>
+                    
+                    <button id="btn-reset" onclick="resetPractice()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold py-2.5 px-4 rounded-xl transition text-xs flex items-center justify-center space-x-1">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <span>Reset & Clear</span>
+                    </button>
+                </div>
+
+                <!-- Accuracy Percentage Score Display -->
+                <div id="accuracy-container" class="mt-4 p-4 bg-slate-50 border border-slate-200 rounded-xl w-full text-center transition-all">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Accuracy Score</span>
+                    <span id="accuracy-percentage" class="text-4xl font-extrabold text-slate-400 tracking-tight">--%</span>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-6xl mx-auto w-full py-4 text-center text-xs text-slate-400">
+        Pet Kingdom Interactive Hotline Speaking Practice
+    </footer>
+
+    <script>
+        const passageData = [
+            {
+                paragraphs: [
+                    "Good evening, thank you for calling Pet Kingdom.  We would like to announce the launch of a new service entitled Happy Pet Spa."
+                ]
+            },
+            {
+                paragraphs: [
+                    "This service provides professional spa treatments for pets.  Your pet can enjoy the treatments in a relaxing environment.  There are different packages available.  The spa service costs only $580 per session.",
+                    "Don't miss the chance because it is good value for money and our staff are friendly and caring.",
+                    "For reservation, call or WhatsApp us at 9214 6422.  We will reply as soon as possible.  Please note that reservation should be made 3 days in advance.",
+                    "We will offer each pet joining the spa treatment a free pet toy.  This offer is for a limited period only.",
+                    "Act now before the promotion is over."
+                ]
+            },
+            {
+                paragraphs: [
+                    "Thank you very much for calling our hotline. Goodbye."
+                ]
+            }
+        ];
+
+        let targetTimeLimit = 120; // Default 2 minutes
+        let timerRemaining = 120;
+        let timerInterval = null;
+        let isRecording = false;
+        let hasStoppedRecording = false;
+        let speechRecognition = null;
+        let fullTargetTextWords = [];
+        let masterTranscript = ''; 
+        let accumulatedTranscript = '';
+
+        // Text To Speech Audio States
+        let ttsUtterance = null;
+        let ttsState = 'stopped';
+        let currentTTSWordId = null;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            prepareTargetWords();
+            renderFullPassage();
+            initSpeechRecognition();
+            updateTimerFromInput();
+        });
+
+        function getWordAliases(raw, clean) {
+            const aliases = new Set([clean]);
+            
+            const numMap = {
+                '1': ['one', '1'], '2': ['two', 'to', 'too', '2'], '3': ['three', '3', '3rd', 'third'], '4': ['four', 'for', '4'], 
+                '5': ['five', '5'], '6': ['six', '6'], '7': ['seven', '7'], '8': ['eight', '8'], 
+                '9': ['nine', '9'], '10': ['ten', '10'], '11': ['eleven', '11'], '12': ['twelve', '12'],
+                '580': ['580', 'five hundred eighty', 'five hundred and eighty', '580 dollars', 'dollars'],
+                '9214': ['9214', 'nine two one four', 'ninety two fourteen', '92146422'],
+                '6422': ['6422', 'six four two two', 'sixty four twenty two', '92146422']
+            };
+
+            if (numMap[clean]) {
+                numMap[clean].forEach(a => aliases.add(a.replace(/[^a-z0-9]/g, '')));
+            }
+
+            const dict = {
+                'good': ['good'],
+                'evening': ['evening'],
+                'thank': ['thank', 'thanks'],
+                'calling': ['calling', 'call'],
+                'pet': ['pet', 'pets'],
+                'kingdom': ['kingdom'],
+                'would': ['would', 'wood'],
+                'announce': ['announce', 'announced', 'announcing'],
+                'launch': ['launch', 'launched'],
+                'service': ['service', 'services'],
+                'entitled': ['entitled', 'entitle'],
+                'happy': ['happy'],
+                'spa': ['spa'],
+                'provides': ['provides', 'provide', 'provided'],
+                'professional': ['professional'],
+                'treatments': ['treatments', 'treatment'],
+                'pets': ['pets', 'pet'],
+                'enjoy': ['enjoy', 'enjoys'],
+                'relaxing': ['relaxing', 'relax'],
+                'environment': ['environment', 'environments'],
+                'different': ['different'],
+                'packages': ['packages', 'package'],
+                'available': ['available'],
+                'costs': ['costs', 'cost'],
+                '580': ['580', 'five hundred eighty', 'five hundred and eighty'],
+                'per': ['per', 'par', 'a'],
+                'session': ['session', 'sessions'],
+                'dont': ['dont', "don't", 'do not'],
+                'miss': ['miss', 'missed'],
+                'chance': ['chance', 'chances'],
+                'because': ['because', 'cos', 'cause'],
+                'value': ['value'],
+                'money': ['money'],
+                'staff': ['staff'],
+                'friendly': ['friendly', 'friend'],
+                'caring': ['caring', 'care'],
+                'reservation': ['reservation', 'reservations'],
+                'call': ['call', 'calling'],
+                'whatsapp': ['whatsapp', 'whats app', 'what app', 'whats-app'],
+                '9214': ['9214', 'nine two one four', 'ninety two fourteen'],
+                '6422': ['6422', 'six four two two', 'sixty four twenty two'],
+                'reply': ['reply', 'replies'],
+                'soon': ['soon'],
+                'possible': ['possible'],
+                'please': ['please', 'pleased'],
+                'note': ['note', 'noted'],
+                'should': ['should'],
+                'made': ['made', 'make'],
+                '3': ['3', 'three', '3rd'],
+                'days': ['days', 'day'],
+                'advance': ['advance'],
+                'offer': ['offer', 'offers'],
+                'each': ['each'],
+                'joining': ['joining', 'join'],
+                'free': ['free'],
+                'toy': ['toy', 'toys'],
+                'limited': ['limited', 'limit'],
+                'period': ['period'],
+                'act': ['act', 'acting'],
+                'promotion': ['promotion', 'promotional'],
+                'over': ['over'],
+                'hotline': ['hotline', 'hot', 'line'],
+                'goodbye': ['goodbye', 'good bye', 'bye']
+            };
+
+            if (dict[clean]) {
+                dict[clean].forEach(a => aliases.add(a.toLowerCase().replace(/[^a-z0-9]/g, '')));
+            }
+
+            return Array.from(aliases);
+        }
+
+        function prepareTargetWords() {
+            fullTargetTextWords = [];
+            let globalWordIndex = 0;
+            let globalSentenceIndex = 0;
+            let globalParagraphIndex = 0;
+            let ttsTextBuffer = "";
+
+            passageData.forEach((sec) => {
+                sec.paragraphs.forEach((pText) => {
+                    if (ttsTextBuffer.length > 0) {
+                        ttsTextBuffer += " ";
+                    }
+                    const pStartOffset = ttsTextBuffer.length;
+                    ttsTextBuffer += pText;
+
+                    const sentences = pText.trim().split(/(?<=[.!?])\s+/);
+                    
+                    // Match non-whitespace tokens in paragraph to extract exact character offsets for TTS
+                    const tokenRegex = /\S+/g;
+                    let match;
+                    const pTokens = [];
+                    while ((match = tokenRegex.exec(pText)) !== null) {
+                        pTokens.push({
+                            raw: match[0],
+                            start: pStartOffset + match.index,
+                            end: pStartOffset + match.index + match[0].length
+                        });
+                    }
+
+                    let tokenPtr = 0;
+
+                    sentences.forEach((sText) => {
+                        const rawTokens = sText.trim().split(/\s+/);
+                        let sentenceHasWords = false;
+
+                        rawTokens.forEach((token) => {
+                            const cleanWord = token.toLowerCase().replace(/[^a-z0-9]/g, '');
+                            if (cleanWord.length > 0) {
+                                const tokenOffsetInfo = pTokens[tokenPtr] || { start: 0, end: 0 };
+                                tokenPtr++;
+
+                                fullTargetTextWords.push({
+                                    id: globalWordIndex,
+                                    raw: token,
+                                    clean: cleanWord,
+                                    aliases: getWordAliases(token, cleanWord),
+                                    paragraphIndex: globalParagraphIndex,
+                                    sentenceIndex: globalSentenceIndex,
+                                    ttsCharStart: tokenOffsetInfo.start,
+                                    ttsCharEnd: tokenOffsetInfo.end,
+                                    status: 'pending' // 'pending', 'correct', 'incorrect'
+                                });
+                                globalWordIndex++;
+                                sentenceHasWords = true;
+                            }
+                        });
+
+                        if (sentenceHasWords) {
+                            globalSentenceIndex++;
+                        }
+                    });
+
+                    globalParagraphIndex++;
+                });
+            });
+
+            window.modelTTSFullText = ttsTextBuffer;
+        }
+
+        function renderFullPassage() {
+            const container = document.getElementById('full-passage-container');
+            container.innerHTML = '';
+
+            // Group target words by paragraph index
+            const paragraphMap = new Map();
+            fullTargetTextWords.forEach(w => {
+                if (!paragraphMap.has(w.paragraphIndex)) {
+                    paragraphMap.set(w.paragraphIndex, []);
+                }
+                paragraphMap.get(w.paragraphIndex).push(w);
+            });
+
+            paragraphMap.forEach((words) => {
+                const pEl = document.createElement('p');
+                pEl.className = "mb-4 leading-relaxed text-slate-800 flex flex-wrap items-center gap-x-1 gap-y-1.5";
+                
+                const pHTML = words.map(w => {
+                    let cls = 'passage-word word-pending';
+                    if (w.status === 'correct') {
+                        cls = 'passage-word word-correct';
+                    } else if (w.status === 'incorrect') {
+                        cls = 'passage-word word-incorrect';
+                    }
+                    return `<span id="word-${w.id}" class="${cls}">${w.raw}</span>`;
+                }).join(' ');
+
+                pEl.innerHTML = pHTML;
+                container.appendChild(pEl);
+            });
+        }
+
+        function updateTimerFromInput() {
+            if (isRecording) return;
+            
+            const mins = parseInt(document.getElementById('input-mins').value) || 0;
+            const secs = parseInt(document.getElementById('input-secs').value) || 0;
+            
+            targetTimeLimit = (mins * 60) + secs;
+            if (targetTimeLimit <= 0) {
+                targetTimeLimit = 10;
+            }
+            
+            timerRemaining = targetTimeLimit;
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerRemaining / 60);
+            const secs = timerRemaining % 60;
+            document.getElementById('timer-display').innerText = 
+                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function initSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            
+            if (!SpeechRecognition) {
+                console.warn("Speech recognition is not supported in this browser.");
+                return;
+            }
+
+            speechRecognition = new SpeechRecognition();
+            speechRecognition.continuous = true;
+            speechRecognition.interimResults = true;
+            speechRecognition.lang = 'en-US';
+
+            speechRecognition.onstart = () => {
+                isRecording = true;
+                hasStoppedRecording = false;
+                updateRecordingUI();
+            };
+
+            speechRecognition.onresult = (event) => {
+                let currentSessionFinal = '';
+                let currentSessionInterim = '';
+
+                for (let i = 0; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        currentSessionFinal += event.results[i][0].transcript + ' ';
+                    } else {
+                        currentSessionInterim += event.results[i][0].transcript + ' ';
+                    }
+                }
+
+                accumulatedTranscript = (masterTranscript + ' ' + currentSessionFinal + ' ' + currentSessionInterim).trim();
+            };
+
+            speechRecognition.onerror = (event) => {
+                console.warn('Speech recognition event:', event.error);
+                if (event.error === 'not-allowed') {
+                    stopRecording();
+                }
+            };
+
+            // Continuous recording loop until explicitly stopped by student
+            speechRecognition.onend = () => {
+                masterTranscript = accumulatedTranscript;
+                if (isRecording) {
+                    try {
+                        speechRecognition.start();
+                    } catch (e) {}
+                }
+            };
+        }
+
+        function enableCheckButton(enable) {
+            const btnCheck = document.getElementById('btn-check');
+            if (!btnCheck) return;
+            if (enable && hasStoppedRecording) {
+                btnCheck.disabled = false;
+                btnCheck.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                btnCheck.disabled = true;
+                btnCheck.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        function updateRecordingUI() {
+            const btnStart = document.getElementById('btn-start-record');
+            const btnStop = document.getElementById('btn-stop-record');
+
+            if (isRecording) {
+                if (btnStart) {
+                    btnStart.disabled = true;
+                    btnStart.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+                if (btnStop) {
+                    btnStop.disabled = false;
+                    btnStop.classList.remove('opacity-50', 'cursor-not-allowed');
+                    btnStop.classList.add('pulse-animation');
+                }
+                enableCheckButton(false);
+            } else {
+                if (btnStart) {
+                    btnStart.disabled = false;
+                    btnStart.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+                if (btnStop) {
+                    btnStop.disabled = true;
+                    btnStop.classList.add('opacity-50', 'cursor-not-allowed');
+                    btnStop.classList.remove('pulse-animation');
+                }
+            }
+        }
+
+        function startRecording() {
+            if (!speechRecognition) return;
+
+            if (timerRemaining <= 0) {
+                resetPractice();
+            }
+
+            try {
+                stopModelAudio();
+
+                masterTranscript = '';
+                accumulatedTranscript = '';
+                hasStoppedRecording = false;
+                enableCheckButton(false);
+
+                speechRecognition.start();
+                
+                timerInterval = setInterval(() => {
+                    timerRemaining--;
+                    updateTimerDisplay();
+
+                    if (timerRemaining === 10) {
+                        trigger10sAlert();
+                    }
+
+                    if (timerRemaining <= 0) {
+                        // Timer finished, but student can keep reading or press stop
+                        clearInterval(timerInterval);
+                    }
+                }, 1000);
+
+            } catch (err) {
+                console.error('Error starting speech recognition:', err);
+            }
+        }
+
+        function trigger10sAlert() {
+            const alertBanner = document.getElementById('alert-10s');
+            if (alertBanner) alertBanner.classList.remove('hidden');
+
+            const timerRing = document.getElementById('timer-ring');
+            if (timerRing) {
+                timerRing.className = "w-40 h-40 rounded-full border-4 border-rose-400 flex flex-col items-center justify-center bg-gradient-to-b from-rose-50 to-amber-50 shadow-inner transition-all duration-300";
+            }
+        }
+
+        function stopRecording() {
+            isRecording = false;
+            hasStoppedRecording = true;
+            clearInterval(timerInterval);
+
+            if (speechRecognition) {
+                try {
+                    speechRecognition.stop();
+                } catch (e) {}
+            }
+
+            updateRecordingUI();
+            
+            if (accumulatedTranscript.trim().length > 0) {
+                enableCheckButton(true);
+            }
+        }
+
+        function checkAccuracy() {
+            if (!hasStoppedRecording || !accumulatedTranscript) return;
+
+            evaluateSpokenText(accumulatedTranscript);
+            finalizePronunciationColors();
+        }
+
+        function evaluateSpokenText(transcript) {
+            if (!transcript) return;
+
+            // Reset all word statuses
+            fullTargetTextWords.forEach(w => w.status = 'pending');
+
+            const normalizedFullTranscript = transcript.toLowerCase();
+            const spokenTokens = normalizedFullTranscript.replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean);
+            
+            if (spokenTokens.length === 0) return;
+
+            // Common stop words to exclude when determining if a sentence was attempted
+            const stopWords = new Set([
+                'a', 'an', 'the', 'to', 'of', 'in', 'is', 'are', 'am', 'and', 'or', 'you', 
+                'we', 'our', 'for', 'at', 'it', 'as', 'be', 'this', 'that', 'from', 'by', 
+                'on', 'with', 'can', 'also', 'there', 'their', 'they', 'them', 'my', 'your', 
+                'us', 'if', 'so', 'per', 'very', 'much', 'please'
+            ]);
+
+            // Group target words by sentence
+            const sentenceMap = new Map();
+            fullTargetTextWords.forEach(w => {
+                if (!sentenceMap.has(w.sentenceIndex)) {
+                    sentenceMap.set(w.sentenceIndex, []);
+                }
+                sentenceMap.get(w.sentenceIndex).push(w);
+            });
+
+            // Track spoken tokens usage
+            const usedSpokenIndices = new Set();
+            const attemptedSentences = new Set();
+
+            // Pass 1: Identify attempted sentences with strict content thresholds
+            sentenceMap.forEach((words, sIdx) => {
+                const contentWords = words.filter(w => !stopWords.has(w.clean));
+                if (contentWords.length === 0) return;
+
+                let contentMatchCount = 0;
+                const matchedSpokenForSentence = new Set();
+
+                contentWords.forEach(targetWord => {
+                    for (let j = 0; j < spokenTokens.length; j++) {
+                        if (!matchedSpokenForSentence.has(j) && isWordMatched(spokenTokens[j], targetWord)) {
+                            contentMatchCount++;
+                            matchedSpokenForSentence.add(j);
+                            break;
+                        }
+                    }
+                });
+
+                // Sentence is attempted ONLY if student spoke at least 45% of its content words (min 2 matches unless sentence has only 1 content word)
+                const reqMatches = contentWords.length <= 1 
+                    ? 1 
+                    : Math.max(2, Math.ceil(contentWords.length * 0.45));
+
+                if (contentMatchCount >= reqMatches) {
+                    attemptedSentences.add(sIdx);
+                }
+            });
+
+            // Pass 2: Evaluate words ONLY in attempted sentences
+            sentenceMap.forEach((words, sIdx) => {
+                if (!attemptedSentences.has(sIdx)) {
+                    // Skipped sentence remains completely uncolored (pending)
+                    return;
+                }
+
+                words.forEach(targetWord => {
+                    let matched = false;
+                    for (let j = 0; j < spokenTokens.length; j++) {
+                        if (!usedSpokenIndices.has(j) && isWordMatched(spokenTokens[j], targetWord)) {
+                            matched = true;
+                            usedSpokenIndices.add(j);
+                            break;
+                        }
+                    }
+
+                    targetWord.status = matched ? 'correct' : 'incorrect';
+                });
+            });
+        }
+
+        function isWordMatched(spoken, targetWord) {
+            if (!spoken || !targetWord) return false;
+            
+            const targetClean = targetWord.clean;
+            if (spoken === targetClean) return true;
+
+            if (targetWord.aliases && targetWord.aliases.includes(spoken)) {
+                return true;
+            }
+
+            // Require both words to be at least 4 characters long for fuzzy/substring matching
+            if (spoken.length >= 4 && targetClean.length >= 4) {
+                const minLen = Math.min(spoken.length, targetClean.length);
+                const maxLen = Math.max(spoken.length, targetClean.length);
+                
+                // Substring overlap check (e.g. cupcake vs cupcakes, order vs ordering)
+                if ((spoken.includes(targetClean) || targetClean.includes(spoken)) && (minLen / maxLen >= 0.70)) {
+                    return true;
+                }
+
+                // Levenshtein distance check for minor typos or speech API misinterpretations
+                if (Math.abs(spoken.length - targetClean.length) <= 2) {
+                    const dist = levenshteinDistance(spoken, targetClean);
+                    const maxAllowed = targetClean.length > 6 ? 2 : 1;
+                    if (dist <= maxAllowed) return true;
+                }
+            }
+
+            return false;
+        }
+
+        function levenshteinDistance(a, b) {
+            const matrix = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+            for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
+            for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+
+            for (let i = 1; i <= a.length; i++) {
+                for (let j = 1; j <= b.length; j++) {
+                    const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+                    matrix[i][j] = Math.min(
+                        matrix[i - 1][j] + 1,
+                        matrix[i][j - 1] + 1,
+                        matrix[i - 1][j - 1] + cost
+                    );
+                }
+            }
+            return matrix[a.length][b.length];
+        }
+
+        function finalizePronunciationColors() {
+            let correctCount = 0;
+            let attemptedCount = 0;
+
+            fullTargetTextWords.forEach((word) => {
+                const el = document.getElementById(`word-${word.id}`);
+                if (word.status === 'correct') {
+                    correctCount++;
+                    attemptedCount++;
+                    if (el) el.className = 'passage-word word-correct';
+                } else if (word.status === 'incorrect') {
+                    attemptedCount++;
+                    if (el) el.className = 'passage-word word-incorrect';
+                } else {
+                    if (el) el.className = 'passage-word word-pending';
+                }
+            });
+
+            const accuracyPct = attemptedCount > 0 ? Math.round((correctCount / attemptedCount) * 100) : 0;
+            
+            const accuracyDisplay = document.getElementById('accuracy-percentage');
+            const accuracyContainer = document.getElementById('accuracy-container');
+            
+            if (accuracyDisplay) {
+                accuracyDisplay.innerText = `${accuracyPct}%`;
+                accuracyDisplay.className = accuracyPct >= 80 
+                    ? "text-4xl font-extrabold text-emerald-600 tracking-tight" 
+                    : accuracyPct >= 50 
+                    ? "text-4xl font-extrabold text-amber-600 tracking-tight" 
+                    : "text-4xl font-extrabold text-rose-600 tracking-tight";
+            }
+
+            if (accuracyContainer) {
+                accuracyContainer.className = accuracyPct >= 80 
+                    ? "mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl w-full text-center transition-all" 
+                    : accuracyPct >= 50 
+                    ? "mt-4 p-4 bg-amber-50 border border-amber-200 rounded-xl w-full text-center transition-all" 
+                    : "mt-4 p-4 bg-rose-50 border border-rose-200 rounded-xl w-full text-center transition-all";
+            }
+
+            const badge = document.getElementById('reading-status-badge');
+            if (badge) {
+                badge.innerText = `Checked (${accuracyPct}%)`;
+                badge.className = "text-xs font-bold px-2.5 py-1 rounded-full bg-indigo-100 text-indigo-700";
+            }
+        }
+
+        function resetPractice() {
+            if (isRecording) {
+                stopRecording();
+            }
+
+            stopModelAudio();
+
+            hasStoppedRecording = false;
+            updateTimerFromInput();
+            clearInterval(timerInterval);
+            masterTranscript = '';
+            accumulatedTranscript = '';
+
+            fullTargetTextWords.forEach(w => {
+                w.status = 'pending';
+            });
+
+            renderFullPassage();
+            enableCheckButton(false);
+
+            const alertBanner = document.getElementById('alert-10s');
+            if (alertBanner) alertBanner.classList.add('hidden');
+
+            const timerRing = document.getElementById('timer-ring');
+            if (timerRing) {
+                timerRing.className = "w-40 h-40 rounded-full border-4 border-amber-100 flex flex-col items-center justify-center bg-gradient-to-b from-amber-50 to-orange-50 shadow-inner transition-all duration-300";
+            }
+
+            const accuracyDisplay = document.getElementById('accuracy-percentage');
+            if (accuracyDisplay) {
+                accuracyDisplay.innerText = '--%';
+                accuracyDisplay.className = "text-4xl font-extrabold text-slate-400 tracking-tight";
+            }
+
+            const accuracyContainer = document.getElementById('accuracy-container');
+            if (accuracyContainer) {
+                accuracyContainer.className = "mt-4 p-4 bg-slate-50 border border-slate-200 rounded-xl w-full text-center transition-all";
+            }
+
+            document.getElementById('reading-status-badge').innerText = 'Ready';
+            document.getElementById('reading-status-badge').className = 'text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-500';
+        }
+
+        function highlightTTSWord(wordId) {
+            if (currentTTSWordId !== null && currentTTSWordId !== wordId) {
+                removeTTSHighlight(currentTTSWordId);
+            }
+
+            if (wordId !== null) {
+                currentTTSWordId = wordId;
+                const el = document.getElementById(`word-${wordId}`);
+                if (el) {
+                    el.classList.add('word-tts-active');
+                    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+        }
+
+        function removeTTSHighlight(wordId) {
+            if (wordId !== null) {
+                const el = document.getElementById(`word-${wordId}`);
+                if (el) {
+                    el.classList.remove('word-tts-active');
+                }
+            }
+        }
+
+        function clearAllTTSHighlights() {
+            if (currentTTSWordId !== null) {
+                removeTTSHighlight(currentTTSWordId);
+                currentTTSWordId = null;
+            }
+            document.querySelectorAll('.word-tts-active').forEach(el => {
+                el.classList.remove('word-tts-active');
+            });
+        }
+
+        function findWordIndexByCharOffset(charIdx) {
+            if (!fullTargetTextWords || fullTargetTextWords.length === 0) return null;
+            
+            for (let i = 0; i < fullTargetTextWords.length; i++) {
+                const w = fullTargetTextWords[i];
+                if (charIdx >= w.ttsCharStart && charIdx <= w.ttsCharEnd) {
+                    return w.id;
+                }
+            }
+
+            let closestId = null;
+            let minDiff = Infinity;
+            for (let i = 0; i < fullTargetTextWords.length; i++) {
+                const w = fullTargetTextWords[i];
+                const diff = Math.abs(charIdx - w.ttsCharStart);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    closestId = w.id;
+                }
+            }
+            return minDiff <= 6 ? closestId : null;
+        }
+
+        function handleTTSToggle() {
+            if (!('speechSynthesis' in window)) {
+                alert("Text-to-speech audio preview is not supported on this browser.");
+                return;
+            }
+
+            const playBtnText = document.getElementById('tts-play-text');
+            const playIcon = document.getElementById('tts-play-icon');
+            const stopBtn = document.getElementById('btn-tts-stop');
+
+            if (ttsState === 'stopped') {
+                window.speechSynthesis.cancel();
+                clearAllTTSHighlights();
+
+                const fullText = window.modelTTSFullText || passageData.flatMap(s => s.paragraphs).join(' ');
+                ttsUtterance = new SpeechSynthesisUtterance(fullText);
+                ttsUtterance.lang = 'en-US';
+                ttsUtterance.rate = 0.72;
+
+                ttsUtterance.onstart = () => {
+                    ttsState = 'playing';
+                    playBtnText.innerText = "Pause Audio";
+                    playIcon.className = "fa-solid fa-pause";
+                    stopBtn.classList.remove('hidden');
+                };
+
+                ttsUtterance.onboundary = (event) => {
+                    if (event.name === 'word') {
+                        const wordId = findWordIndexByCharOffset(event.charIndex);
+                        if (wordId !== null) {
+                            highlightTTSWord(wordId);
+                        }
+                    }
+                };
+
+                ttsUtterance.onend = () => {
+                    resetTTSUI();
+                };
+
+                ttsUtterance.onerror = () => {
+                    resetTTSUI();
+                };
+
+                window.speechSynthesis.speak(ttsUtterance);
+
+            } else if (ttsState === 'playing') {
+                window.speechSynthesis.pause();
+                ttsState = 'paused';
+                playBtnText.innerText = "Resume Audio";
+                playIcon.className = "fa-solid fa-play";
+
+            } else if (ttsState === 'paused') {
+                window.speechSynthesis.resume();
+                ttsState = 'playing';
+                playBtnText.innerText = "Pause Audio";
+                playIcon.className = "fa-solid fa-pause";
+            }
+        }
+
+        function stopModelAudio() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            resetTTSUI();
+        }
+
+        function resetTTSUI() {
+            ttsState = 'stopped';
+            clearAllTTSHighlights();
+            document.getElementById('tts-play-text').innerText = "Listen to Model";
+            document.getElementById('tts-play-icon').className = "fa-solid fa-play";
+            document.getElementById('btn-tts-stop').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
