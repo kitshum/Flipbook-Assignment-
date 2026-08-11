@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LAN3109 Revision Package</title>
+    <style>
+        :root {
+            --primary: #1e4d2b;
+            --primary-light: rgba(30, 77, 43, 0.1);
+            --accent: #ff9f1c;
+            --success: #2b9348;
+            --danger: #e71d36;
+            --text-dark: #1f2029;
+            --syllable-1: #0077b6;
+            --syllable-2: #d90429;
+            --syllable-3: #f77f00;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+            position: relative;
+            background: radial-gradient(at 0% 0%, #e8f5e9 0px, transparent 50%),
+                        radial-gradient(at 100% 0%, #e3f2fd 0px, transparent 50%),
+                        radial-gradient(at 100% 100%, #fff3e0 0px, transparent 50%),
+                        radial-gradient(at 0% 100%, #e0f2f1 0px, transparent 50%),
+                        #f4f7f6;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        /* Ambient glowing background accent blobs */
+        .bg-glow-1 {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(76,175,80,0.2) 0%, transparent 70%);
+            top: -100px;
+            left: -100px;
+            z-index: -1;
+        }
+
+        .bg-glow-2 {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(33,150,243,0.18) 0%, transparent 70%);
+            bottom: -100px;
+            right: -100px;
+            z-index: -1;
+        }
+
+        /* Main Container with Frosted Premium Glass Look */
+        .container {
+            width: 100%;
+            max-width: 1150px; 
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 28px 40px;
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 20px 60px rgba(27, 47, 33, 0.06);
+            box-sizing: border-box;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 2px dashed rgba(30, 77, 43, 0.15);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        header h1 { 
+            color: var(--primary); 
+            margin: 0; 
+            font-size: 34px; 
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .task-label {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e88e5;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        .question-label {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1e88e5;
+            margin: 16px 0 10px 0;
+            text-align: left;
+        }
+
+        /* Line Workspaces */
+        .practice-line {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 25px;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            padding: 20px 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            box-sizing: border-box;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .practice-line:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.04);
+        }
+
+        /* Controls Section */
+        .line-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+            border-right: 2px solid var(--primary-light);
+            padding-right: 25px;
+            min-width: 130px;
+        }
+
+        .btn-ctrl {
+            border: none;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+        }
+
+        .btn-toggle-play { background: var(--primary); color: white; }
+        .btn-toggle-play:hover { background: #13331c; transform: translateY(-1px); }
+        
+        .btn-mic { background: #028090; color: white; }
+        .btn-mic:hover { background: #015863; transform: translateY(-1px); }
+        .btn-mic.recording { background: var(--danger); animation: pulse 1.5s infinite; }
+        
+        .btn-check { background: #f77f00; color: white; display: none; }
+        .btn-check:hover { background: #cf6b00; transform: translateY(-1px); }
+
+        .line-workspace {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            min-width: 0; 
+        }
+
+        .text-display {
+            font-size: 22px; 
+            line-height: 1.5;
+            border-bottom: 2px solid #444;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+            color: #111;
+            display: flex;
+            flex-wrap: wrap; 
+            row-gap: 4px;
+        }
+
+        .word {
+            display: inline-block;
+            padding: 0 4px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .word:hover {
+            background-color: rgba(0,0,0,0.06);
+            transform: scale(1.03);
+        }
+        .word.speaking {
+            background-color: var(--accent) !important;
+            color: black !important;
+            transform: scale(1.05);
+        }
+
+        /* Sub-panels */
+        .syllable-row {
+            display: none; /* Hidden initially to avoid pushing text downwards */
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            min-height: 32px;
+            flex-wrap: wrap;
+        }
+
+        .syllable-tip {
+            font-size: 16px;
+            border-radius: 8px;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+        .syllable-tip.active {
+            background: #f8f9fa;
+            border: 1px dashed #c0c8c0;
+            padding: 6px 14px;
+        }
+
+        .btn-word-practice {
+            background: #028090;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            display: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: background 0.2s;
+        }
+        .btn-word-practice.recording {
+            background: var(--danger);
+        }
+
+        .s1 { color: var(--syllable-1); font-weight: bold; }
+        .s2 { color: var(--syllable-2); font-weight: bold; }
+        .s3 { color: var(--syllable-3); font-weight: bold; }
+
+        .feedback-metrics {
+            font-size: 15px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 8px;
+            background: rgba(0,0,0,0.03);
+            padding: 10px 14px;
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+        .score-lbl {
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 6px;
+        }
+
+        /* Orientation rules optimized for wide display on mobile viewports */
+        @media (max-width: 768px) {
+            body { padding: 10px 5px; } /* Minimized edge body spacing */
+            .container { padding: 20px 12px; border-radius: 16px; width: 100%; } /* Task boxes span full display width */
+            header h1 { font-size: 24px; }
+            
+            .practice-line {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                padding: 16px 12px;
+                border-radius: 12px;
+                width: 100%;
+            }
+            .line-controls {
+                flex-direction: row;
+                border-right: none;
+                border-bottom: 2px solid var(--primary-light);
+                padding-right: 0;
+                padding-bottom: 12px;
+                width: 100%;
+            }
+            .btn-ctrl { width: 100%; }
+            .text-display { font-size: 19px; }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow-1"></div>
+    <div class="bg-glow-2"></div>
+
+    <div class="container">
+        <header>
+            <h1><b>LAN3109 Revision Package (Assignment)</b></h1>
+        </header>
+
+        <div class="task-label"><b>Task 4</b></div>
+
+        <div class="question-label" style="margin-top: 0;">Question 1</div>
+
+        <div class="practice-line" id="block-0">
+            <div class="line-controls">
+                <button class="btn-ctrl btn-toggle-play" id="playbtn-0" onclick="togglePlay(0)">▶️ Play</button>
+                <button class="btn-ctrl btn-mic" id="mic-0" onclick="toggleRecording(0)">🎙️ Record</button>
+                <button class="btn-ctrl btn-check" id="check-0" onclick="evaluatePronunciation(0)">🔍 Check</button>
+            </div>
+            <div class="line-workspace">
+                <div class="syllable-row" id="syllable-row-0">
+                    <div class="syllable-tip" id="syllable-0"></div>
+                    <button class="btn-word-practice" id="wordmic-0">🎙️ Practice Word</button>
+                </div>
+                <div class="text-display" id="display-0"></div>
+                <div class="feedback-metrics" id="feedback-0" style="display:none;">
+                    <span id="transcript-0"></span>
+                    <span class="score-lbl" id="score-0"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="practice-line" id="block-1">
+            <div class="line-controls">
+                <button class="btn-ctrl btn-toggle-play" id="playbtn-1" onclick="togglePlay(1)">▶️ Play</button>
+                <button class="btn-ctrl btn-mic" id="mic-1" onclick="toggleRecording(1)">🎙️ Record</button>
+                <button class="btn-ctrl btn-check" id="check-1" onclick="evaluatePronunciation(1)">🔍 Check</button>
+            </div>
+            <div class="line-workspace">
+                <div class="syllable-row" id="syllable-row-1">
+                    <div class="syllable-tip" id="syllable-1"></div>
+                    <button class="btn-word-practice" id="wordmic-1">🎙️ Practice Word</button>
+                </div>
+                <div class="text-display" id="display-1"></div>
+                <div class="feedback-metrics" id="feedback-1" style="display:none;">
+                    <span id="transcript-1"></span>
+                    <span class="score-lbl" id="score-1"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-label">Question 2</div>
+
+        <div class="practice-line" id="block-2">
+            <div class="line-controls">
+                <button class="btn-ctrl btn-toggle-play" id="playbtn-2" onclick="togglePlay(2)">▶️ Play</button>
+                <button class="btn-ctrl btn-mic" id="mic-2" onclick="toggleRecording(2)">🎙️ Record</button>
+                <button class="btn-ctrl btn-check" id="check-2" onclick="evaluatePronunciation(2)">🔍 Check</button>
+            </div>
+            <div class="line-workspace">
+                <div class="syllable-row" id="syllable-row-2">
+                    <div class="syllable-tip" id="syllable-2"></div>
+                    <button class="btn-word-practice" id="wordmic-2">🎙️ Practice Word</button>
+                </div>
+                <div class="text-display" id="display-2"></div>
+                <div class="feedback-metrics" id="feedback-2" style="display:none;">
+                    <span id="transcript-2"></span>
+                    <span class="score-lbl" id="score-2"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-label">Question 3</div>
+
+        <div class="practice-line" id="block-3">
+            <div class="line-controls">
+                <button class="btn-ctrl btn-toggle-play" id="playbtn-3" onclick="togglePlay(3)">▶️ Play</button>
+                <button class="btn-ctrl btn-mic" id="mic-3" onclick="toggleRecording(3)">🎙️ Record</button>
+                <button class="btn-ctrl btn-check" id="check-3" onclick="evaluatePronunciation(3)">🔍 Check</button>
+            </div>
+            <div class="line-workspace">
+                <div class="syllable-row" id="syllable-row-3">
+                    <div class="syllable-tip" id="syllable-3"></div>
+                    <button class="btn-word-practice" id="wordmic-3">🎙️ Practice Word</button>
+                </div>
+                <div class="text-display" id="display-3"></div>
+                <div class="feedback-metrics" id="feedback-3" style="display:none;">
+                    <span id="transcript-3"></span>
+                    <span class="score-lbl" id="score-3"></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const structuralLines = [
+            // Question 1
+            {
+                lineIndex: 0,
+                words: [
+                    { raw: "You", bold: false, syllables: ["<span class='s1'>You</span>"] },
+                    { raw: "should", bold: false, syllables: ["<span class='s1'>should</span>"] },
+                    { raw: "really", bold: true, syllables: ["<span class='s1'>real</span>", "<span class='s2'>ly</span>"] },
+                    { raw: "buy", bold: true, syllables: ["<span class='s1'>buy</span>"] },
+                    { raw: "our", bold: false, syllables: ["<span class='s1'>our</span>"] },
+                    { raw: "Easter", bold: true, syllables: ["<span class='s1'>East</span>", "<span class='s2'>er</span>"] },
+                    { raw: "cupcakes", bold: true, syllables: ["<span class='s1'>cup</span>", "<span class='s2'>cakes</span>"] },
+                    { raw: "as", bold: false, syllables: ["<span class='s1'>as</span>"] },
+                    { raw: "they", bold: false, syllables: ["<span class='s1'>they</span>"] },
+                    { raw: "are", bold: false, syllables: ["<span class='s1'>are</span>"] },
+                    { raw: "healthy", bold: true, syllables: ["<span class='s1'>health</span>", "<span class='s2'>y</span>"] },
+                    { raw: "and", bold: false, syllables: ["<span class='s1'>and</span>"] },
+                    { raw: "delicious.", bold: true, syllables: ["<span class='s1'>de</span>", "<span class='s2'>li</span>", "<span class='s3'>cious</span>"] }
+                ]
+            },
+            {
+                lineIndex: 1,
+                words: [
+                    { raw: "Also,", bold: false, syllables: ["<span class='s1'>Al</span>", "<span class='s2'>so</span>"] },
+                    { raw: "you", bold: false, syllables: ["<span class='s1'>you</span>"] },
+                    { raw: "can", bold: false, syllables: ["<span class='s1'>can</span>"] },
+                    { raw: "send", bold: true, syllables: ["<span class='s1'>send</span>"] },
+                    { raw: "them", bold: false, syllables: ["<span class='s1'>them</span>"] },
+                    { raw: "to", bold: false, syllables: ["<span class='s1'>to</span>"] },
+                    { raw: "your", bold: false, syllables: ["<span class='s1'>your</span>"] },
+                    { raw: "friends", bold: true, syllables: ["<span class='s1'>friends</span>"] },
+                    { raw: "as", bold: false, syllables: ["<span class='s1'>as</span>"] },
+                    { raw: "a", bold: false, syllables: ["<span class='s1'>a</span>"] },
+                    { raw: "holiday", bold: true, syllables: ["<span class='s1'>hol</span>", "<span class='s2'>i</span>", "<span class='s3'>day</span>"] },
+                    { raw: "gift.", bold: true, syllables: ["<span class='s1'>gift</span>"] }
+                ]
+            },
+            // Question 2
+            {
+                lineIndex: 2,
+                words: [
+                    { raw: "Don’t", bold: false, syllables: ["<span class='s1'>Don’t</span>"] },
+                    { raw: "miss", bold: true, syllables: ["<span class='s1'>miss</span>"] },
+                    { raw: "the", bold: false, syllables: ["<span class='s1'>the</span>"] },
+                    { raw: "chance", bold: true, syllables: ["<span class='s1'>chance</span>"] },
+                    { raw: "because", bold: false, syllables: ["<span class='s1'>be</span>", "<span class='s2'>cause</span>"] },
+                    { raw: "the", bold: false, syllables: ["<span class='s1'>the</span>"] },
+                    { raw: "spa", bold: true, syllables: ["<span class='s1'>spa</span>"] },
+                    { raw: "service", bold: true, syllables: ["<span class='s1'>ser</span>", "<span class='s2'>vice</span>"] },
+                    { raw: "is", bold: false, syllables: ["<span class='s1'>is</span>"] },
+                    { raw: "good", bold: true, syllables: ["<span class='s1'>good</span>"] },
+                    { raw: "value", bold: true, syllables: ["<span class='s1'>val</span>", "<span class='s2'>ue</span>"] },
+                    { raw: "for", bold: false, syllables: ["<span class='s1'>for</span>"] },
+                    { raw: "money", bold: true, syllables: ["<span class='s1'>mon</span>", "<span class='s2'>ey</span>"] },
+                    { raw: "and", bold: false, syllables: ["<span class='s1'>and</span>"] },
+                    { raw: "our", bold: false, syllables: ["<span class='s1'>our</span>"] },
+                    { raw: "staff", bold: true, syllables: ["<span class='s1'>staff</span>"] },
+                    { raw: "are", bold: false, syllables: ["<span class='s1'>are</span>"] },
+                    { raw: "friendly", bold: true, syllables: ["<span class='s1'>friend</span>", "<span class='s2'>ly</span>"] },
+                    { raw: "and", bold: false, syllables: ["<span class='s1'>and</span>"] },
+                    { raw: "caring.", bold: true, syllables: ["<span class='s1'>car</span>", "<span class='s2'>ing</span>"] }
+                ]
+            },
+            // Question 3
+            {
+                lineIndex: 3,
+                words: [
+                    { raw: "Join", bold: true, syllables: ["<span class='s1'>Join</span>"] },
+                    { raw: "us", bold: false, syllables: ["<span class='s1'>us</span>"] },
+                    { raw: "as", bold: false, syllables: ["<span class='s1'>as</span>"] },
+                    { raw: "it", bold: false, syllables: ["<span class='s1'>it</span>"] },
+                    { raw: "is", bold: false, syllables: ["<span class='s1'>is</span>"] },
+                    { raw: "a", bold: false, syllables: ["<span class='s1'>a</span>"] },
+                    { raw: "special", bold: true, syllables: ["<span class='s1'>spe</span>", "<span class='s2'>cial</span>"] },
+                    { raw: "summer", bold: true, syllables: ["<span class='s1'>sum</span>", "<span class='s2'>mer</span>"] },
+                    { raw: "event", bold: true, syllables: ["<span class='s1'>e</span>", "<span class='s2'>vent</span>"] },
+                    { raw: "and", bold: false, syllables: ["<span class='s1'>and</span>"] },
+                    { raw: "you", bold: false, syllables: ["<span class='s1'>you</span>"] },
+                    { raw: "can", bold: false, syllables: ["<span class='s1'>can</span>"] },
+                    { raw: "enjoy", bold: true, syllables: ["<span class='s1'>en</span>", "<span class='s2'>joy</span>"] },
+                    { raw: "fireworks", bold: true, syllables: ["<span class='s1'>fire</span>", "<span class='s2'>works</span>"] },
+                    { raw: "and", bold: false, syllables: ["<span class='s1'>and</span>"] },
+                    { raw: "music", bold: true, syllables: ["<span class='s1'>mu</span>", "<span class='s2'>sic</span>"] },
+                    { raw: "under", bold: false, syllables: ["<span class='s1'>un</span>", "<span class='s2'>der</span>"] },
+                    { raw: "the", bold: false, syllables: ["<span class='s1'>the</span>"] },
+                    { raw: "stars.", bold: true, syllables: ["<span class='s1'>stars</span>"] }
+                ]
+            }
+        ];
+
+        let speechTracker = null;
+        let wordTracker = null;
+        let studentCaptureBuffer = {};
+        let activeUtterance = null;
+        let currentWordIndex = 0;
+        let isPaused = false;
+        let currentlyPlayingLine = null;
+        let isUserStopping = false;
+
+        structuralLines.forEach(lineData => {
+            const displayEl = document.getElementById(`display-${lineData.lineIndex}`);
+            lineData.words.forEach((w, wIdx) => {
+                const span = document.createElement('span');
+                span.className = 'word';
+                span.id = `token-${lineData.lineIndex}-${wIdx}`;
+                span.innerText = w.raw + " ";
+                if(w.bold) span.style.fontWeight = "bold";
+                
+                span.onclick = (e) => {
+                    e.stopPropagation();
+                    speakIsolatedWord(w.raw);
+                    showSyllableData(lineData.lineIndex, w.syllables, w.raw, span.id);
+                };
+                displayEl.appendChild(span);
+            });
+        });
+
+        function togglePlay(lineIndex) {
+            const playBtn = document.getElementById(`playbtn-${lineIndex}`);
+
+            if (currentlyPlayingLine !== null && currentlyPlayingLine !== lineIndex) {
+                resetPlayButton(currentlyPlayingLine);
+                window.speechSynthesis.cancel();
+                isPaused = false;
+                currentWordIndex = 0;
+            }
+
+            currentlyPlayingLine = lineIndex;
+
+            if (!isPaused && window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel(); 
+                isPaused = true;
+                playBtn.innerText = "▶️ Resume";
+                clearVisualIndicators();
+            } else {
+                isPaused = false;
+                playBtn.innerText = "⏸️ Pause";
+                
+                const targetedLineData = structuralLines[lineIndex];
+                const startIdx = currentWordIndex;
+                const remainingTokens = targetedLineData.words.slice(startIdx);
+                
+                // Map character start boundaries for each token in the remaining text
+                let currentOffset = 0;
+                const lineRanges = remainingTokens.map((w, relIdx) => {
+                    const rawLen = w.raw.length;
+                    const range = {
+                        wordIndex: startIdx + relIdx,
+                        start: currentOffset
+                    };
+                    currentOffset += rawLen + 1; // +1 space
+                    return range;
+                });
+
+                const remainingWords = remainingTokens.map(w => w.raw).join(" ");
+                
+                activeUtterance = new SpeechSynthesisUtterance(remainingWords);
+                activeUtterance.lang = 'en-US';
+                activeUtterance.rate = 0.47; 
+
+                // Use exact character index matching so multi-word number pronunciations (e.g., "$128") highlight the correct DOM token
+                activeUtterance.onboundary = function(event) {
+                    if (event.name === 'word') {
+                        clearVisualIndicators();
+                        const charIdx = event.charIndex;
+                        let matchedIdx = -1;
+                        for (let i = 0; i < lineRanges.length; i++) {
+                            if (charIdx >= lineRanges[i].start && (i === lineRanges.length - 1 || charIdx < lineRanges[i + 1].start)) {
+                                matchedIdx = lineRanges[i].wordIndex;
+                                break;
+                            }
+                        }
+                        if (matchedIdx !== -1) {
+                            currentWordIndex = matchedIdx;
+                            const targetSpan = document.getElementById(`token-${lineIndex}-${matchedIdx}`);
+                            if(targetSpan) targetSpan.classList.add('speaking');
+                        }
+                    }
+                };
+
+                activeUtterance.onend = function() {
+                    if (!isPaused) {
+                        resetPlayButton(lineIndex);
+                    }
+                };
+
+                window.speechSynthesis.speak(activeUtterance);
+            }
+        }
+
+        function resetPlayButton(lineIndex) {
+            const playBtn = document.getElementById(`playbtn-${lineIndex}`);
+            if(playBtn) playBtn.innerText = "▶️ Play";
+            clearVisualIndicators();
+            currentWordIndex = 0;
+            isPaused = false;
+        }
+
+        function clearVisualIndicators() {
+            document.querySelectorAll('.word').forEach(w => w.classList.remove('speaking'));
+        }
+
+        function speakIsolatedWord(wordRaw) {
+            window.speechSynthesis.cancel();
+            isPaused = false;
+            if(currentlyPlayingLine !== null) resetPlayButton(currentlyPlayingLine);
+            
+            const clean = wordRaw.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()'"’]/g,"");
+            const wordUtterance = new SpeechSynthesisUtterance(clean);
+            wordUtterance.lang = 'en-US';
+            window.speechSynthesis.speak(wordUtterance);
+        }
+
+        function showSyllableData(lineIndex, syllablesArray, originalRaw, spanId) {
+            const rowEl = document.getElementById(`syllable-row-${lineIndex}`);
+            if (rowEl) rowEl.style.display = "flex";
+
+            const tipContainer = document.getElementById(`syllable-${lineIndex}`);
+            tipContainer.className = "syllable-tip active"; 
+            tipContainer.innerHTML = syllablesArray.join(" • ");
+
+            const wordMic = document.getElementById('wordmic-' + lineIndex);
+            wordMic.style.display = "inline-block";
+            wordMic.innerText = "🎙️ Practice Word";
+            wordMic.className = "btn-word-practice";
+            
+            wordMic.onclick = () => {
+                practiceSingleWord(lineIndex, originalRaw, spanId, wordMic);
+            };
+        }
+
+        function practiceSingleWord(lineIndex, targetRaw, spanId, buttonEl) {
+            const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+            if (!SpeechRecognition) return;
+
+            if (buttonEl.classList.contains('recording')) {
+                if(wordTracker) wordTracker.stop();
+                return;
+            }
+
+            wordTracker = new SpeechRecognition();
+            wordTracker.lang = 'en-US';
+            wordTracker.interimResults = false;
+
+            buttonEl.innerText = "🛑 Stop";
+            buttonEl.classList.add('recording');
+
+            wordTracker.onresult = function(event) {
+                const spokenWord = event.results[0][0].transcript.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()'"’]/g,"").trim();
+                const targetClean = targetRaw.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()'"’]/g,"").trim();
+                const targetSpan = document.getElementById(spanId);
+
+                if (spokenWord === targetClean) {
+                    targetSpan.style.color = "var(--success)";
+                    buttonEl.innerText = "🟢 Correct!";
+                } else {
+                    targetSpan.style.color = "var(--danger)";
+                    buttonEl.innerText = "🔴 Try Again";
+                }
+            };
+
+            wordTracker.onend = function() {
+                buttonEl.classList.remove('recording');
+                if(!buttonEl.innerText.includes('Correct') && !buttonEl.innerText.includes('Try')) {
+                    buttonEl.innerText = "🎙️ Practice Word";
+                }
+            };
+
+            wordTracker.start();
+        }
+
+        function toggleRecording(lineIndex) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                alert("Please use Chrome or Edge for full oral testing compatibility.");
+                return;
+            }
+
+            const micBtn = document.getElementById(`mic-${lineIndex}`);
+            
+            if (micBtn.classList.contains('recording')) {
+                isUserStopping = true;
+                if(speechTracker) speechTracker.stop();
+                return;
+            }
+
+            isUserStopping = false;
+            speechTracker = new SpeechRecognition();
+            speechTracker.lang = 'en-US';
+            speechTracker.interimResults = false;
+            speechTracker.continuous = true; 
+            
+            studentCaptureBuffer[lineIndex] = ""; 
+            micBtn.innerText = "🛑 Stop";
+            micBtn.classList.add('recording');
+
+            speechTracker.onresult = function(event) {
+                let segmentTranscript = "";
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        segmentTranscript += event.results[i][0].transcript + " ";
+                    }
+                }
+                studentCaptureBuffer[lineIndex] += segmentTranscript;
+                document.getElementById(`check-${lineIndex}`).style.display = "inline-block";
+            };
+
+            speechTracker.onend = function() {
+                if (!isUserStopping) {
+                    speechTracker.start();
+                } else {
+                    micBtn.innerText = "🎙️ Record Again";
+                    micBtn.classList.remove('recording');
+                }
+            };
+
+            speechTracker.onerror = function(event) {
+                if (event.error !== 'no-speech') {
+                    isUserStopping = true;
+                    micBtn.innerText = "🎙️ Record";
+                    micBtn.classList.remove('recording');
+                }
+            };
+
+            speechTracker.start();
+        }
+
+        function evaluatePronunciation(lineIndex) {
+            const spokenString = studentCaptureBuffer[lineIndex].trim();
+            if(!spokenString) return;
+
+            const targetWordsData = structuralLines[lineIndex].words;
+            const parsedSpokenTokens = spokenString.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()'"’]/g,"").split(/\s+/);
+            
+            let absoluteMatches = 0;
+
+            targetWordsData.forEach((w, wIdx) => {
+                const domNode = document.getElementById(`token-${lineIndex}-${wIdx}`);
+                const sanitizedTarget = w.raw.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()'"’]/g,"");
+
+                let isMatch = parsedSpokenTokens.includes(sanitizedTarget);
+                // Enhanced matching logic for numeric/dollar figures
+                if (!isMatch && !isNaN(sanitizedTarget)) {
+                    const cleanSpoken = spokenString.toLowerCase();
+                    if (sanitizedTarget === "128" && (cleanSpoken.includes("128") || (cleanSpoken.includes("one hundred") && cleanSpoken.includes("twenty")))) isMatch = true;
+                    if (sanitizedTarget === "580" && (cleanSpoken.includes("580") || (cleanSpoken.includes("five hundred") && cleanSpoken.includes("eighty")))) isMatch = true;
+                    if (sanitizedTarget === "620" && (cleanSpoken.includes("620") || (cleanSpoken.includes("six hundred") && cleanSpoken.includes("twenty")))) isMatch = true;
+                    if (sanitizedTarget === "450" && (cleanSpoken.includes("450") || (cleanSpoken.includes("four hundred") && cleanSpoken.includes("fifty")))) isMatch = true;
+                }
+
+                if(isMatch) {
+                    domNode.style.color = "var(--success)";
+                    absoluteMatches++;
+                } else {
+                    domNode.style.color = "var(--danger)";
+                }
+            });
+
+            const precisionPercentage = Math.round((absoluteMatches / targetWordsData.length) * 100);
+            const feedbackBox = document.getElementById(`feedback-${lineIndex}`);
+            
+            feedbackBox.style.display = "flex";
+            document.getElementById(`transcript-${lineIndex}`).innerHTML = `<strong>Heard:</strong> "${spokenString}"`;
+            
+            const badge = document.getElementById(`score-${lineIndex}`);
+            badge.innerText = `Score: ${precisionPercentage}%`;
+            badge.style.background = precisionPercentage >= 85 ? "#d4edda" : "#f8d7da";
+            badge.style.color = precisionPercentage >= 85 ? "#155724" : "#721c24";
+        }
+    </script>
+</body>
+</html>
