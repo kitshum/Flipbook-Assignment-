@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        html {
+            font-size: 18px; /* Increased base font size across the entire document */
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f1f5f9;
@@ -96,9 +100,9 @@
 
         <!-- Worksheet Table -->
         <div class="overflow-x-auto rounded-lg border border-slate-400 shadow-sm mb-6">
-            <table class="w-full custom-table border-collapse text-left text-xs sm:text-sm md:text-base">
+            <table class="w-full custom-table border-collapse text-left text-sm sm:text-base md:text-lg">
                 <thead>
-                    <tr class="bg-sky-100 text-slate-800 font-bold text-center">
+                    <tr class="bg-sky-100 text-slate-800 font-bold text-center text-base sm:text-lg md:text-xl">
                         <th class="p-3 w-1/6 min-w-[90px] border-r border-slate-400">Part</th>
                         <th class="p-3 w-3/6 min-w-[280px] border-r border-slate-400">
                             Promotional hotline message - <br class="hidden sm:inline"/>Family Fun Day
@@ -113,15 +117,15 @@
                         <td class="p-3 font-semibold text-center bg-slate-50 align-middle">Opening</td>
                         <td class="p-3 align-top">
                             <div class="yellow-audio-box p-3 rounded-lg flex items-start gap-2" data-audio-text="Good morning, welcome to the Central Community Centre hotline. We are pleased to announce an upcoming event called 'Family Fun Day'.">
-                                <span class="text-slate-800 leading-relaxed">
+                                <span class="text-slate-800 text-sm sm:text-base md:text-lg leading-relaxed">
                                     Good morning, welcome to the Central Community Centre hotline. We are pleased to announce an upcoming event called 'Family Fun Day'.
                                 </span>
                                 <button type="button" class="audio-btn text-amber-700 hover:text-amber-900 focus:outline-none ml-auto shrink-0" title="Listen to audio">
-                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                    <i class="fa-solid fa-volume-high text-lg sm:text-xl"></i>
                                 </button>
                             </div>
                         </td>
-                        <td class="p-3 bg-slate-50 font-normal text-slate-700 align-middle italic">
+                        <td class="p-3 bg-slate-50 font-normal text-slate-700 align-middle italic text-sm sm:text-base md:text-lg">
                             e.g., Greeting and announcement of the event
                         </td>
                     </tr>
@@ -133,11 +137,11 @@
                         </td>
                         <td class="p-3 align-top">
                             <div class="yellow-audio-box p-3 rounded-lg flex items-start gap-2" data-audio-text="It is perfect for families with children who are 6 years old or above. You can play exciting games and join interesting workshops in our new recreation centre in Sai Kung. The fee is only $80 per person, including lunch.">
-                                <span class="text-slate-800 leading-relaxed">
+                                <span class="text-slate-800 text-sm sm:text-base md:text-lg leading-relaxed">
                                     It is perfect for families with children who are 6 years old or above. You can play exciting games and join interesting workshops in our new recreation centre in Sai Kung. The fee is only $80 per person, including lunch.
                                 </span>
                                 <button type="button" class="audio-btn text-amber-700 hover:text-amber-900 focus:outline-none ml-auto shrink-0" title="Listen to audio">
-                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                    <i class="fa-solid fa-volume-high text-lg sm:text-xl"></i>
                                 </button>
                             </div>
                         </td>
@@ -145,7 +149,7 @@
                             <div class="drop-zone p-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 flex flex-col justify-center items-center min-h-[80px]" data-target-id="1">
                                 <!-- Target 1 placeholder -->
                             </div>
-                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs text-emerald-800 font-medium"></div>
+                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs sm:text-sm text-emerald-800 font-medium"></div>
                         </td>
                     </tr>
 
@@ -153,11 +157,11 @@
                     <tr>
                         <td class="p-3 align-top">
                             <div class="yellow-audio-box p-3 rounded-lg flex items-start gap-2" data-audio-text="Join this event because it is an enjoyable family activity. Also, it can foster family relationships.">
-                                <span class="text-slate-800 leading-relaxed">
+                                <span class="text-slate-800 text-sm sm:text-base md:text-lg leading-relaxed">
                                     Join this event because it is an enjoyable family activity. Also, it can foster family relationships.
                                 </span>
                                 <button type="button" class="audio-btn text-amber-700 hover:text-amber-900 focus:outline-none ml-auto shrink-0" title="Listen to audio">
-                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                    <i class="fa-solid fa-volume-high text-lg sm:text-xl"></i>
                                 </button>
                             </div>
                         </td>
@@ -165,7 +169,7 @@
                             <div class="drop-zone p-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 flex flex-col justify-center items-center min-h-[80px]" data-target-id="2">
                                 <!-- Target 2 placeholder -->
                             </div>
-                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs text-emerald-800 font-medium"></div>
+                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs sm:text-sm text-emerald-800 font-medium"></div>
                         </td>
                     </tr>
 
@@ -173,11 +177,11 @@
                     <tr>
                         <td class="p-3 align-top">
                             <div class="yellow-audio-box p-3 rounded-lg flex items-start gap-2" data-audio-text="You can enrol online at www.centralcc.o r g.hk, or you can visit our centre at 101 Queen's Road, Central. The enrolment deadline is 22 October.">
-                                <span class="text-slate-800 leading-relaxed">
+                                <span class="text-slate-800 text-sm sm:text-base md:text-lg leading-relaxed">
                                     You can enrol online at <span class="underline text-blue-800">www.centralcc.org.hk</span>, or you can visit our centre at 101 Queen's Road, Central. The enrolment deadline is 22 October.
                                 </span>
                                 <button type="button" class="audio-btn text-amber-700 hover:text-amber-900 focus:outline-none ml-auto shrink-0" title="Listen to audio">
-                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                    <i class="fa-solid fa-volume-high text-lg sm:text-xl"></i>
                                 </button>
                             </div>
                         </td>
@@ -185,7 +189,7 @@
                             <div class="drop-zone p-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 flex flex-col justify-center items-center min-h-[80px]" data-target-id="3">
                                 <!-- Target 3 placeholder -->
                             </div>
-                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs text-emerald-800 font-medium"></div>
+                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs sm:text-sm text-emerald-800 font-medium"></div>
                         </td>
                     </tr>
 
@@ -193,11 +197,11 @@
                     <tr>
                         <td class="p-3 align-top">
                             <div class="yellow-audio-box p-3 rounded-lg flex items-start gap-2" data-audio-text="The first 10 successfully enrolled families will be offered a $50 supermarket voucher, which is sponsored by Best Market.">
-                                <span class="text-slate-800 leading-relaxed">
+                                <span class="text-slate-800 text-sm sm:text-base md:text-lg leading-relaxed">
                                     The first 10 successfully enrolled families will be offered a $50 supermarket voucher, which is sponsored by Best Market.
                                 </span>
                                 <button type="button" class="audio-btn text-amber-700 hover:text-amber-900 focus:outline-none ml-auto shrink-0" title="Listen to audio">
-                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                    <i class="fa-solid fa-volume-high text-lg sm:text-xl"></i>
                                 </button>
                             </div>
                         </td>
@@ -205,7 +209,7 @@
                             <div class="drop-zone p-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 flex flex-col justify-center items-center min-h-[80px]" data-target-id="4">
                                 <!-- Target 4 placeholder -->
                             </div>
-                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs text-emerald-800 font-medium"></div>
+                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs sm:text-sm text-emerald-800 font-medium"></div>
                         </td>
                     </tr>
 
@@ -213,11 +217,11 @@
                     <tr>
                         <td class="p-3 align-top">
                             <div class="yellow-audio-box p-3 rounded-lg flex items-start gap-2" data-audio-text="Don't miss the chance. Enrol now.">
-                                <span class="text-slate-800 leading-relaxed">
+                                <span class="text-slate-800 text-sm sm:text-base md:text-lg leading-relaxed">
                                     Don't miss the chance. Enrol now.
                                 </span>
                                 <button type="button" class="audio-btn text-amber-700 hover:text-amber-900 focus:outline-none ml-auto shrink-0" title="Listen to audio">
-                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                    <i class="fa-solid fa-volume-high text-lg sm:text-xl"></i>
                                 </button>
                             </div>
                         </td>
@@ -225,7 +229,7 @@
                             <div class="drop-zone p-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 flex flex-col justify-center items-center min-h-[80px]" data-target-id="5">
                                 <!-- Target 5 placeholder -->
                             </div>
-                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs text-emerald-800 font-medium"></div>
+                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs sm:text-sm text-emerald-800 font-medium"></div>
                         </td>
                     </tr>
 
@@ -234,11 +238,11 @@
                         <td class="p-3 font-semibold text-center bg-slate-50 align-middle">Closing</td>
                         <td class="p-3 align-top">
                             <div class="yellow-audio-box p-3 rounded-lg flex items-start gap-2" data-audio-text="Thank you for using our hotline. We look forward to seeing you. Goodbye.">
-                                <span class="text-slate-800 leading-relaxed">
+                                <span class="text-slate-800 text-sm sm:text-base md:text-lg leading-relaxed">
                                     Thank you for using our hotline. We look forward to seeing you. Goodbye.
                                 </span>
                                 <button type="button" class="audio-btn text-amber-700 hover:text-amber-900 focus:outline-none ml-auto shrink-0" title="Listen to audio">
-                                    <i class="fa-solid fa-volume-high text-lg"></i>
+                                    <i class="fa-solid fa-volume-high text-lg sm:text-xl"></i>
                                 </button>
                             </div>
                         </td>
@@ -246,7 +250,7 @@
                             <div class="drop-zone p-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 flex flex-col justify-center items-center min-h-[80px]" data-target-id="6">
                                 <!-- Target 6 placeholder -->
                             </div>
-                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs text-emerald-800 font-medium"></div>
+                            <div class="correct-answer-reveal hidden mt-2 p-2 bg-emerald-50 border border-emerald-300 rounded text-xs sm:text-sm text-emerald-800 font-medium"></div>
                         </td>
                     </tr>
 
@@ -257,18 +261,18 @@
         <!-- Bottom Action Controls -->
         <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
             <div class="flex items-center gap-3">
-                <button id="btn-submit" type="button" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold text-base rounded-xl shadow-md hover:shadow-lg transition flex items-center gap-2">
+                <button id="btn-submit" type="button" class="px-7 py-3.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold text-lg sm:text-xl rounded-xl shadow-md hover:shadow-lg transition flex items-center gap-2">
                     <i class="fa-solid fa-circle-check"></i>
                     <span>Submit</span>
                 </button>
 
-                <button id="btn-retry" type="button" class="px-6 py-3 bg-slate-200 hover:bg-slate-300 active:bg-slate-400 text-slate-800 font-semibold text-base rounded-xl transition flex items-center gap-2">
+                <button id="btn-retry" type="button" class="px-7 py-3.5 bg-slate-200 hover:bg-slate-300 active:bg-slate-400 text-slate-800 font-semibold text-lg sm:text-xl rounded-xl transition flex items-center gap-2">
                     <i class="fa-solid fa-rotate-left"></i>
                     <span>Retry</span>
                 </button>
             </div>
 
-            <p class="text-xs text-slate-500 italic">
+            <p class="text-sm sm:text-base text-slate-600 italic">
                 Tip: You can drag items back to top or click an item then click a slot to place it.
             </p>
         </div>
@@ -346,7 +350,7 @@
         function createCardElement(comp) {
             const card = document.createElement('div');
             card.id = comp.id;
-            card.className = 'draggable-card p-3 bg-white border-2 border-slate-300 rounded-lg shadow-sm text-center font-medium text-slate-800 text-xs sm:text-sm hover:border-blue-400 hover:shadow-md flex items-center justify-center min-h-[50px] w-full';
+            card.className = 'draggable-card p-3 sm:p-4 bg-white border-2 border-slate-300 rounded-lg shadow-sm text-center font-semibold text-slate-800 text-sm sm:text-base md:text-lg hover:border-blue-400 hover:shadow-md flex items-center justify-center min-h-[60px] w-full';
             card.setAttribute('draggable', 'true');
             card.setAttribute('data-id', comp.id);
             card.innerText = comp.text;
